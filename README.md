@@ -1,0 +1,2 @@
+# affinityai
+Affinity AI project
