@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Romantic Archetype | Affinity AI</title>
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --primary-light: #a29bfe;
+            --secondary: #fd79a8;
+            --secondary-light: #fab1c9;
+            --dark: #2d3436;
+            --light: #f9f9f9;
+            --gray: #dfe6e9;
+            --gradient-start: #6c5ce7;
+            --gradient-end: #fd79a8;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        header p {
+            font-size: 1.2rem;
+            color: var(--dark);
+            opacity: 0.8;
+        }
+        
+        .archetype-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .archetype-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 10px;
+            background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+        }
+        
+        .archetype-name {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+        
+        .archetype-tagline {
+            font-size: 1.3rem;
+            font-style: italic;
+            margin-bottom: 30px;
+            color: var(--secondary);
+        }
+        
+        .archetype-keywords {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .keyword {
+            background: var(--gray);
+            padding: 8px 15px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .compatibility {
+            background: var(--light);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .compatibility h3 {
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+        
+        .share-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .share-button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .share-button:hover {
+            background: var(--primary-light);
+            transform: translateY(-2px);
+        }
+        
+        .premium-teaser {
+            background: linear-gradient(135deg, rgba(108, 92, 231, 0.1), rgba(253, 121, 168, 0.1));
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            border: 2px dashed var(--primary-light);
+        }
+        
+        .premium-teaser h2 {
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        .premium-features {
+            margin: 20px 0;
+        }
+        
+        .feature {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .feature-icon {
+            background: var(--primary-light);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .cta-button {
+            background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: block;
+            width: 100%;
+            text-align: center;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .price {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 1.2rem;
+        }
+        
+        .price strong {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+        
+        .radar-preview {
+            width: 100%;
+            height: 200px;
+            background: var(--gray);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .radar-preview::after {
+            content: '✨ Premium Feature';
+            position: absolute;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+        
+        .blur-text {
+            color: transparent;
+            text-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: var(--dark);
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .archetype-card {
+                padding: 30px;
+            }
+            
+            .archetype-name {
+                font-size: 1.8rem;
+            }
+            
+            .archetype-tagline {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Your Romantic Archetype</h1>
+            <p>Discover how you love, connect, and relate</p>
+        </header>
+        
+        <!-- Free Result Section -->
+        <div class="archetype-card">
+            <h2 class="archetype-name">Narrative Idealist</h2>
+            <p class="archetype-tagline">"Love is a story I want to co-write."</p>
+            
+            <div class="archetype-keywords">
+                <span class="keyword">Deep-feeling</span>
+                <span class="keyword">Poetic</span>
+                <span class="keyword">Nostalgic</span>
+                <span class="keyword">✨</span>
+            </div>
+            
+            <p>As a <strong>Narrative Idealist</strong>, you seek connection through shared meaning, books, music, and deep talks. You're naturally loyal, emotionally rich, and intuitive in relationships.</p>
+            
+            <div class="compatibility">
+                <h3>Your Top Matches</h3>
+                <p>You're most compatible with the <strong>Grounded Harmonizer</strong> and <strong>Cosmic Cynic</strong> archetypes.</p>
+            </div>
+            
+            <div class="share-section">
+                <button class="share-button">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M18 8C19.6569 8 21 6.65685 21 5C21 3.34315 19.6569 2 18 2C16.3431 2 15 3.34315 15 5C15 5.12548 15.0077 5.24917 15.0227 5.37061L8.08261 9.19367C7.54305 8.46909 6.7029 8 5.75 8C4.23122 8 3 9.23122 3 10.75C3 12.2688 4.23122 13.5 5.75 13.5C6.7029 13.5 7.54305 13.0309 8.08261 12.3063L15.0227 16.1294C15.0077 16.2508 15 16.3745 15 16.5C15 18.1569 16.3431 19.5 18 19.5C19.6569 19.5 21 18.1569 21 16.5C21 14.8431 19.6569 13.5 18 13.5C17.0971 13.5 16.257 13.9691 15.7174 14.6937L8.77735 10.8706C8.79229 10.7492 8.8 10.6255 8.8 10.5C8.8 10.3745 8.79229 10.2508 8.77735 10.1294L15.7174 6.30633C16.257 7.03091 17.0971 7.5 18 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Share Your Archetype
+                </button>
+            </div>
+        </div>
+        
+        <!-- Premium Teaser Section -->
+        <div class="premium-teaser">
+            <h2>Unlock Your Complete Love Blueprint</h2>
+            <p>Discover the full depth of your Narrative Idealist archetype with our premium insights.</p>
+            
+            <div class="premium-features">
+                <div class="feature">
+                    <div class="feature-icon">✓</div>
+                    <div>
+                        <strong>10-15 Page Personalized Report</strong>
+                        <p>Detailed insights into your relationship patterns, communication style, and growth areas.</p>
+                    </div>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">✓</div>
+                    <div>
+                        <strong>Compatibility Radar</strong>
+                        <p>Invite a partner to see how you align across 5 key dimensions.</p>
+                    </div>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">✓</div>
+                    <div>
+                        <strong>AI-Generated Conversation Starters</strong>
+                        <p>Tailored prompts for deeper connection with potential matches.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="radar-preview">
+                <!-- Radar chart would go here in the premium version -->
+                <svg width="150" height="150" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M100 10L123.5 76.5L190 100L123.5 123.5L100 190L76.5 123.5L10 100L76.5 76.5L100 10Z" stroke="#6c5ce7" stroke-width="2"/>
+                    <path d="M100 40L115 85L160 100L115 115L100 160L85 115L40 100L85 85L100 40Z" stroke="#fd79a8" stroke-width="2" fill="rgba(253, 121, 168, 0.2)"/>
+                    <circle cx="100" cy="100" r="3" fill="#2d3436"/>
+                </svg>
+            </div>
+            
+            <p>Here's a glimpse of what your full report includes:</p>
+            
+            <blockquote class="blur-text">
+                As a Narrative Idealist, your greatest strength is your ability to see the poetry in everyday moments. You create meaning through storytelling and shared experiences, which makes you an incredibly engaging and emotionally intelligent partner. However, your tendency to romanticize can sometimes lead to disappointment when reality doesn't match your internal narrative...
+            </blockquote>
+            
+            <div class="price">
+                <p>One-time purchase: <strong>$19</strong></p>
+            </div>
+            
+            <a href="#" class="cta-button">Unlock Your Full Love Blueprint</a>
+        </div>
+        
+        <footer>
+            <p>© 2025 Affinity AI • Privacy Policy • Terms of Service</p>
+        </footer>
+    </div>
+</body>
+</html>

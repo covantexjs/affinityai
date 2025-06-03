@@ -1,0 +1,29 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+  functions = "netlify/functions"
+
+[dev]
+  command = "npm run dev"
+  targetPort = 5173
+  port = 5173
+  publish = "dist"
+  framework = "vite"
+  autoLaunch = true
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[functions]
+  node_bundler = "esbuild"
+  external_node_modules = ["@supabase/supabase-js", "stripe"]
+
+[build.environment]
+  NODE_VERSION = "20.19.1"
+
+[template.environment]
+  VITE_STRIPE_PUBLISHABLE_KEY = "Stripe Publishable Key"
+  STRIPE_SECRET_KEY = "Stripe Secret Key"
+  STRIPE_WEBHOOK_SECRET = "Stripe Webhook Secret"

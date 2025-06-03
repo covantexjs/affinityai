@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --primary: #6c5ce7;
+    --secondary: #fd79a8;
+  }
+
+  html {
+    @apply antialiased;
+  }
+  
+  body {
+    @apply bg-gray-50 text-gray-900;
+    opacity: 1 !important;
+    transition: none !important;
+  }
+}
+
+.bg-gradient-primary {
+  @apply bg-gradient-to-r from-primary-500 to-secondary-500;
+}
+
+.text-gradient {
+  @apply bg-clip-text text-transparent bg-gradient-primary;
+}
+
+.shadow-card {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
