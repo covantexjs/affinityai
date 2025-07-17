@@ -30,11 +30,13 @@
 [build.environment]
   NODE_VERSION = "20"
 
-[template.environment]
-  VITE_STRIPE_PUBLISHABLE_KEY = "pk_test_51RUrvBRuGbBleiQfr5lOLSLomoFKV6GHCBvBP4eC5pboSkRyrYQtV6wcwDRXglU1BVCwq9mXA22Xzp8uja4E5wP100REUdhnbV"
-  STRIPE_SECRET_KEY = "sk_test_51RUrvBRuGbBleiQfsfRbHtXELl4GYvz1iZt5jQh102J0mUuL34VI7xy7weRnYESImQWZupStOVipVBigNWORyTkk00Uuhq6Bxn"
-  STRIPE_WEBHOOK_SECRET = "we_1RUx1sRuGbBleiQfPai8qIIi"
-  OPENAI_API_KEY = "sk-proj-EGk87f50hC3TWjy9ysoMv-"
-  VITE_SUPABASE_URL = "https://cbmglgcolscecxseorap.supabase.co"
-  VITE_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNibWdsZ2NvbHNjZWN4c2VvcmFwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg3ODYxNzksImV4cCI6MjA2NDM2MjE3OX0.gvGvkiDBG2EVB0XdWpnHoZE3vr8-HZSy9w7jj7uHWDo"
-  SUPABASE_SERVICE_ROLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNibWdsZ2NvbHNjZWN4c2VvcmFwIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0ODc4NjE3OSwiZXhwIjoyMDY0MzYyMTc5fQ.JV8VOPgkMqRtsu8au6LOeyzfFvYvl2PAHrZO2GRW7Nc"
+# Environment variables should be set in Netlify dashboard
+# Go to Site settings > Build & deploy > Environment variables
+# Add the following variables:
+# - VITE_STRIPE_PUBLISHABLE_KEY
+# - STRIPE_SECRET_KEY  
+# - STRIPE_WEBHOOK_SECRET
+# - OPENAI_API_KEY
+# - VITE_SUPABASE_URL
+# - VITE_SUPABASE_ANON_KEY
+# - SUPABASE_SERVICE_ROLE_KEY
