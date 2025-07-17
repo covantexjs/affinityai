@@ -1015,7 +1015,7 @@ export const handler: Handler = async (event) => {
     // Return the HTML content for client-side PDF generation
     const response = {
       html: htmlContent,
-      filename: \`${archetype.name.toLowerCase().replace(/\s+/g, '-')}-love-blueprint.pdf`,
+      filename: `${archetype.name.toLowerCase().replace(/\s+/g, '-')}-love-blueprint.pdf`,
       archetype: archetype.name,
       customerName: customerName || 'Valued Customer'
     };
