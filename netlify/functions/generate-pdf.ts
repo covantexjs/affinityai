@@ -185,6 +185,9 @@ const createPDFHTML = (archetype: any, customerName?: string, sessionId?: string
   // Randomly select phrases to use throughout the document
   const getRandomPhrase = () => style.phrases[Math.floor(Math.random() * style.phrases.length)];
 
+  const htmlContent = `<!DOCTYPE html>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${archetype.name} Love Blueprint</title>
@@ -969,8 +972,9 @@ const createPDFHTML = (archetype: any, customerName?: string, sessionId?: string
         <div class="page-number">Page 8</div>
     </div>
 </body>
-</html>
-  `;
+</html>`;
+
+  return htmlContent;
 };
 
 export const handler: Handler = async (event) => {
