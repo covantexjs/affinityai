@@ -8,7 +8,7 @@ This directory contains snapshots of the PDF components that have been tested an
 - `AIEnhancedLoveBlueprint.snapshot.tsx` - The AI-enhanced premium report component
 - `SampleLoveBlueprint.snapshot.tsx` - The sample report component shown to users before purchase
 - `LoveBlueprint.snapshot.tsx` - The base report component
-- `generate-pdf.snapshot.ts` - The server-side PDF generation function
+- `generate-pdf-snapshot.ts` - The server-side PDF generation function
 
 ## How to Use
 
