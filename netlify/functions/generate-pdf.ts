@@ -210,10 +210,10 @@ const createPDFHTML = (archetype: any, customerName?: string, sessionId?: string
         .page {
             width: 210mm;
             min-height: 297mm;
-            padding: 12mm;
+            padding: 8mm; /* Reduced from 12mm */
             margin: 0 auto;
             background: white;
-            page-break-after: always !important;
+            page-break-after: auto; /* Changed from always !important */
             position: relative;
         }
         
@@ -233,6 +233,7 @@ const createPDFHTML = (archetype: any, customerName?: string, sessionId?: string
             background: linear-gradient(135deg, #f8f9ff 0%, #e6f3ff 100%);
             border-radius: 12px;
             padding: 40px;
+            page-break-after: always !important;
         }
         
         .cover-title {
@@ -285,15 +286,16 @@ const createPDFHTML = (archetype: any, customerName?: string, sessionId?: string
         
         .page-header {
             border-bottom: 3px solid #6c5ce7;
-            padding-bottom: 20px;
-            margin-bottom: 40px;
+            padding-bottom: 15px; /* Reduced from 20px */
+            margin-bottom: 20px; /* Reduced from 40px */
+            page-break-after: avoid;
         }
         
         .page-title {
-            font-size: 32px;
+            font-size: 28px; /* Reduced from 32px */
             font-weight: 700;
             color: #6c5ce7;
-            margin-bottom: 8px;
+            margin-bottom: 5px; /* Reduced from 8px */
         }
         
         .page-subtitle {
@@ -302,73 +304,75 @@ const createPDFHTML = (archetype: any, customerName?: string, sessionId?: string
         }
         
         .section {
-            margin-bottom: 32px;
-            page-break-inside: avoid !important;
+            margin-bottom: 20px; /* Reduced from 32px */
+            page-break-inside: auto; /* Changed from avoid !important */
         }
         
         .section-title {
             font-size: 20px;
             font-weight: 600;
             color: #2d3748;
-            margin-bottom: 16px;
+            margin-bottom: 10px; /* Reduced from 16px */
             padding-left: 16px;
             border-left: 4px solid #6c5ce7;
         }
         
         .section-content {
             font-size: 14px;
-            line-height: 1.7;
+            line-height: 1.6; /* Reduced from 1.7 */
             color: #4a5568;
-            margin-bottom: 16px;
+            margin-bottom: 10px; /* Reduced from 16px */
         }
         
         .highlight-box {
             background: linear-gradient(135deg, #f8f9ff 0%, #e6f3ff 100%);
             border: 1px solid #e2e8f0;
             border-radius: 8px;
-            padding: 20px;
-            margin: 20px 0;
+            padding: 15px; /* Reduced from 20px */
+            margin: 15px 0; /* Reduced from 20px */
             border-left: 4px solid #6c5ce7;
-            page-break-inside: avoid !important;
+            page-break-inside: avoid;
         }
         
         .highlight-title {
             font-weight: 600;
             color: #6c5ce7;
-            margin-bottom: 8px;
+            margin-bottom: 5px; /* Reduced from 8px */
         }
         
         .keywords-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin: 20px 0;
-            page-break-inside: avoid !important;
+            gap: 10px; /* Reduced from 12px */
+            margin: 15px 0; /* Reduced from 20px */
+            page-break-inside: auto;
         }
         
         .keyword-item {
             background: #f7fafc;
             border: 1px solid #e2e8f0;
             border-radius: 6px;
-            padding: 12px 16px;
+            padding: 10px; /* Reduced from 12px 16px */
             text-align: center;
             font-weight: 500;
             color: #4a5568;
+            page-break-inside: avoid;
         }
         
         .compatibility-section {
             background: #f0fff4;
             border: 1px solid #c6f6d5;
             border-radius: 8px;
-            padding: 20px;
-            margin: 20px 0;
-            page-break-inside: avoid !important;
+            padding: 15px; /* Reduced from 20px */
+            margin: 15px 0; /* Reduced from 20px */
+            page-break-inside: auto;
         }
         
         .compatibility-title {
             color: #2f855a;
             font-weight: 600;
-            margin-bottom: 12px;
+            margin-bottom: 10px; /* Reduced from 12px */
+            page-break-inside: avoid !important;
         }
         
         .compatibility-list {
@@ -380,23 +384,26 @@ const createPDFHTML = (archetype: any, customerName?: string, sessionId?: string
             background: white;
             border: 1px solid #c6f6d5;
             border-radius: 4px;
-            padding: 8px 12px;
-            margin: 4px 0;
+            padding: 6px 10px; /* Reduced from 8px 12px */
+            margin: 3px 0; /* Reduced from 4px */
             color: #2f855a;
             font-weight: 500;
+            page-break-inside: avoid;
         }
         
         .bullet-list {
             list-style: none;
             padding: 0;
-            margin: 16px 0;
+            margin: 12px 0; /* Reduced from 16px */
+            page-break-inside: auto;
         }
         
         .bullet-item {
             position: relative;
-            padding-left: 24px;
-            margin-bottom: 8px;
+            padding-left: 20px; /* Reduced from 24px */
+            margin-bottom: 6px; /* Reduced from 8px */
             color: #4a5568;
+            page-break-inside: avoid;
         }
         
         .bullet-item::before {
@@ -411,45 +418,79 @@ const createPDFHTML = (archetype: any, customerName?: string, sessionId?: string
             background: #fffaf0;
             border: 1px solid #fed7aa;
             border-radius: 8px;
-            padding: 20px;
-            margin: 20px 0;
-            page-break-inside: avoid !important;
+            padding: 15px; /* Reduced from 20px */
+            margin: 15px 0; /* Reduced from 20px */
+            page-break-inside: auto;
         }
         
         .conversation-title {
             color: #c05621;
             font-weight: 600;
-            margin-bottom: 12px;
+            margin-bottom: 10px; /* Reduced from 12px */
+            page-break-inside: avoid !important;
         }
         
         .conversation-item {
             background: white;
             border: 1px solid #fed7aa;
             border-radius: 4px;
-            padding: 12px;
-            margin: 8px 0;
+            padding: 10px; /* Reduced from 12px */
+            margin: 6px 0; /* Reduced from 8px */
             font-style: italic;
             color: #744210;
+            page-break-inside: avoid;
         }
         
         .footer {
             position: absolute;
-            bottom: 20mm;
-            left: 20mm;
-            right: 20mm;
+            bottom: 15mm; /* Reduced from 20mm */
+            left: 15mm; /* Reduced from 20mm */
+            right: 15mm; /* Reduced from 20mm */
             text-align: center;
-            font-size: 12px;
+            font-size: 11px; /* Reduced from 12px */
             color: #a0aec0;
             border-top: 1px solid #e2e8f0;
-            padding-top: 16px;
+            padding-top: 12px; /* Reduced from 16px */
         }
         
         .page-number {
             position: absolute;
-            bottom: 10mm;
-            right: 20mm;
-            font-size: 12px;
+            bottom: 8mm; /* Reduced from 10mm */
+            right: 15mm; /* Reduced from 20mm */
+            font-size: 11px; /* Reduced from 12px */
             color: #a0aec0;
+        }
+        
+        /* Couples CTA styling */
+        .couples-cta {
+            background: linear-gradient(135deg, #f0e6ff 0%, #e6e6ff 100%);
+            border: 1px solid #d6bcfa;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #805ad5;
+            page-break-inside: avoid;
+        }
+        
+        .couples-cta-title {
+            font-weight: 600;
+            color: #553c9a;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+        
+        .couples-cta-text {
+            color: #553c9a;
+            line-height: 1.4;
+            font-size: 13px;
+        }
+        
+        /* Critical sections that should never break */
+        .cover-page,
+        .highlight-box .highlight-title,
+        .compatibility-section .compatibility-title,
+        .conversation-starters .conversation-title {
+            page-break-inside: avoid !important;
         }
         
         /* Print Styles */
@@ -466,25 +507,21 @@ const createPDFHTML = (archetype: any, customerName?: string, sessionId?: string
             .page {
                 margin: 0;
                 box-shadow: none;
-                page-break-after: always !important;
+                page-break-after: auto;
                 page-break-before: auto !important;
             }
             
-            .section {
-                page-break-inside: avoid !important;
-            }
-            
-            .highlight-box, .compatibility-section, .conversation-starters {
-                page-break-inside: avoid !important;
+            /* Only force page breaks where absolutely necessary */
+            .page:nth-child(1) {
+                page-break-after: always !important; /* Cover page should break */
             }
         }
     </style>
-}
 </head>
 <body>
     <!-- Cover Page -->
     <div class="page">
-        <div class="cover-page" style="page-break-after: always !important;">
+        <div class="cover-page">
             <h1 class="cover-title">Love Blueprint</h1>
             <h2 class="cover-archetype">${archetype.name}: The Love Blueprint</h2>
             <p class="cover-tagline">"Co-authoring your love story with clarity and heart."</p>
@@ -494,7 +531,7 @@ const createPDFHTML = (archetype: any, customerName?: string, sessionId?: string
     </div>
 
     <!-- Page 1: Archetype Overview -->
-    <div class="page" style="page-break-after: always !important;">
+    <div class="page">
         <div class="content-page">
             <header class="page-header">
                 <h1 class="page-title">Your Archetype: ${archetype.name}</h1>
@@ -529,7 +566,7 @@ const createPDFHTML = (archetype: any, customerName?: string, sessionId?: string
                     <ul class="compatibility-list">
                         ${archetype.compatibleWith.map(match => `<li class="compatibility-item">${match}</li>`).join('')}
                     </ul>
-                    <p style="margin-top: 12px; color: #2f855a;">These archetypes complement your ${archetype.name} nature by providing balance to your approach while appreciating your unique perspective on love and relationships.</p>
+                    <p style="margin-top: 10px; color: #2f855a; font-size: 13px;">These archetypes complement your ${archetype.name} nature by providing balance to your approach while appreciating your unique perspective on love and relationships.</p>
                 </div>
             </div>
         </div>
@@ -538,7 +575,7 @@ const createPDFHTML = (archetype: any, customerName?: string, sessionId?: string
     </div>
 
     <!-- Page 2: Communication Style -->
-    <div class="page" style="page-break-after: always !important;">
+    <div class="page">
         <div class="content-page">
             <header class="page-header">
                 <h1 class="page-title">Your Communication Style</h1>
@@ -586,7 +623,7 @@ const createPDFHTML = (archetype: any, customerName?: string, sessionId?: string
     </div>
 
     <!-- Page 3: Relationship Dynamics -->
-    <div class="page" style="page-break-after: always !important;">
+    <div class="page">
         <div class="content-page">
             <header class="page-header">
                 <h1 class="page-title">Your Relationship Dynamics</h1>
@@ -627,10 +664,10 @@ const createPDFHTML = (archetype: any, customerName?: string, sessionId?: string
             </div>
             
             <!-- Couples Mode CTA -->
-            <div style="background-color: #f0e6ff; padding: 15px; margin-top: 20px; border-radius: 8px; border-left: 4px solid #805ad5;">
-                <h3 style="font-weight: 600; color: #553c9a; margin-bottom: 8px; font-size: 16px;">Want to compare this with your partner's archetype?</h3>
-                <p style="color: #553c9a; font-size: 14px;">
-                    Try Couples Mode to discover how your archetypes interact and get personalized insights for your relationship. Visit <a href="https://affinityai.me/couples" style="color: #553c9a; text-decoration: underline;">affinityai.me/couples</a> to get started.
+            <div class="couples-cta">
+                <h3 class="couples-cta-title">Want to compare this with your partner's archetype?</h3>
+                <p class="couples-cta-text">
+                    Try Couples Mode to discover how your archetypes interact and get personalized insights for your relationship. Visit <strong>affinityai.me/couples</strong> to get started.
                 </p>
             </div>
         </div>
@@ -639,7 +676,7 @@ const createPDFHTML = (archetype: any, customerName?: string, sessionId?: string
     </div>
 
     <!-- Page 4: Personal Growth -->
-    <div class="page" style="page-break-after: always !important;">
+    <div class="page">
         <div class="content-page">
             <header class="page-header">
                 <h1 class="page-title">Personal Growth Opportunities</h1>
@@ -685,7 +722,7 @@ const createPDFHTML = (archetype: any, customerName?: string, sessionId?: string
     </div>
 
     <!-- Page 5: Action Steps -->
-    <div class="page" style="page-break-after: avoid !important;">
+    <div class="page">
         <div class="content-page">
             <header class="page-header">
                 <h1 class="page-title">Your Next Steps</h1>
@@ -716,28 +753,26 @@ const createPDFHTML = (archetype: any, customerName?: string, sessionId?: string
                 <h2 class="section-title">Ongoing: Long-term Growth</h2>
                 <ul class="bullet-list">
                     <li class="bullet-item">Develop a consistent practice of emotional self-care and processing</li>
-                    <li class="bull
-}et-item">Learn to appreciate expressions of love that might differ from your ${style.tone} preferences</li>
+                    <li class="bullet-item">Learn to appreciate expressions of love that might differ from your ${style.tone} preferences</li>
                     <li class="bullet-item">Build resilience by reframing challenges as part of your growth story</li>
                     <li class="bullet-item">Continue exploring your compatibility with different personality types</li>
                 </ul>
             </div>
 
-            <div class="highlight-box" style="margin-top: 30px;">
+            <div class="highlight-box" style="margin-top: 20px;">
                 <div class="highlight-title" style="text-align: center; font-size: 16px;">Remember</div>
-                <p style="text-align: center; font-size: 14px; margin-top: 10px;">Your ${style.tone} approach to relationships is a gift. The right person will treasure these qualities, not ask you to diminish them.</p>
+                <p style="text-align: center; font-size: 14px; margin-top: 8px;">Your ${style.tone} approach to relationships is a gift. The right person will treasure these qualities, not ask you to diminish them.</p>
             </div>
 
-            <!-- Couples 
-}Mode CTA -->
-            <div style="background: #f0e6ff; border: 1px solid #d6bcfa; border-radius: 8px; padding: 20px; margin: 30px 0; border-left: 4px solid #805ad5;">
-                <h3 style="font-weight: 600; color: #553c9a; margin-bottom: 10px; font-size: 16px;">Want to compare this with your partner's archetype?</h3>
-                <p style="color: #553c9a; line-height: 1.6;">
-                    Try Couples Mode to discover how your archetypes interact and get personalized insights for your relationship. Visit affinityai.me/couples to get started.
+            <!-- Couples Mode CTA -->
+            <div class="couples-cta" style="margin-top: 20px;">
+                <h3 class="couples-cta-title">Want to compare this with your partner's archetype?</h3>
+                <p class="couples-cta-text">
+                    Try Couples Mode to discover how your archetypes interact and get personalized insights for your relationship. Visit <strong>affinityai.me/couples</strong> to get started.
                 </p>
             </div>
 
-            <p style="text-align: center; margin-top: 20px; font-size: 14px; color: #6c5ce7; font-weight: 500;">
+            <p style="text-align: center; margin-top: 15px; font-size: 14px; color: #6c5ce7; font-weight: 500;">
                 Thank you for taking this journey of self-discovery. May your love story be everything you dream it can be.
             </p>
         </div>
@@ -760,33 +795,33 @@ const createPDFHTML = (archetype: any, customerName?: string, sessionId?: string
                 </p>
                 
                 <!-- Compatibility Radar Visualization -->
-                <div style="display: flex; justify-content: center; margin: 30px 0;">
-                    <div style="position: relative; width: 300px; height: 300px;">
-                        <!-- Outer circle -->
-                        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 50%; border: 1px solid #e2e8f0;"></div>
+                <div style="display: flex; justify-content: center; margin: 15px 0;">
+                    <svg width="300" height="300" viewBox="0 0 300 300" style="margin: 0 auto;">
+                        <!-- Background circles -->
+                        <circle cx="150" cy="150" r="150" fill="none" stroke="#e2e8f0" stroke-width="1" />
+                        <circle cx="150" cy="150" r="112.5" fill="none" stroke="#e2e8f0" stroke-width="1" />
+                        <circle cx="150" cy="150" r="75" fill="none" stroke="#e2e8f0" stroke-width="1" />
+                        <circle cx="150" cy="150" r="37.5" fill="none" stroke="#e2e8f0" stroke-width="1" />
                         
-                        <!-- 75% circle -->
-                        <div style="position: absolute; top: 12.5%; left: 12.5%; width: 75%; height: 75%; border-radius: 50%; border: 1px solid #e2e8f0;"></div>
+                        <!-- Axis lines -->
+                        <line x1="150" y1="0" x2="150" y2="300" stroke="#e2e8f0" stroke-width="1" />
+                        <line x1="0" y1="150" x2="300" y2="150" stroke="#e2e8f0" stroke-width="1" />
+                        <line x1="44" y1="44" x2="256" y2="256" stroke="#e2e8f0" stroke-width="1" />
+                        <line x1="256" y1="44" x2="44" y2="256" stroke="#e2e8f0" stroke-width="1" />
                         
-                        <!-- 50% circle -->
-                        <div style="position: absolute; top: 25%; left: 25%; width: 50%; height: 50%; border-radius: 50%; border: 1px solid #e2e8f0;"></div>
-                        
-                        <!-- 25% circle -->
-                        <div style="position: absolute; top: 37.5%; left: 37.5%; width: 25%; height: 25%; border-radius: 50%; border: 1px solid #e2e8f0;"></div>
+                        <!-- Data polygon -->
+                        <polygon points="150,30 270,150 150,240 60,150" fill="rgba(108, 92, 231, 0.1)" stroke="#6c5ce7" stroke-width="2" />
                         
                         <!-- Center point -->
-                        <div style="position: absolute; top: 49%; left: 49%; width: 2%; height: 2%; border-radius: 50%; background-color: #6c5ce7;"></div>
+                        <circle cx="150" cy="150" r="3" fill="#6c5ce7" />
                         
-                        <!-- Archetype labels -->
-                        <div style="position: absolute; top: -5%; left: 45%; text-align: center; font-size: 12px; color: #4a5568;">Narrative Idealist</div>
-                        <div style="position: absolute; top: 45%; right: -5%; text-align: center; font-size: 12px; color: #4a5568;">Vibrant Explorer</div>
-                        <div style="position: absolute; bottom: -5%; left: 45%; text-align: center; font-size: 12px; color: #4a5568;">Steady Guardian</div>
-                        <div style="position: absolute; top: 45%; left: -5%; text-align: center; font-size: 12px; color: #4a5568;">Compassionate Nurturer</div>
-                        <div style="position: absolute; top: 22%; left: 22%; text-align: center; font-size: 12px; color: #4a5568;">Mindful Architect</div>
-                        
-                        <!-- Data polygon (simplified) -->
-                        <div style="position: absolute; top: 25%; left: 25%; width: 50%; height: 50%; border: 2px solid #6c5ce7; background-color: rgba(108, 92, 231, 0.1); clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);"></div>
-                    </div>
+                        <!-- Labels -->
+                        <text x="150" y="15" text-anchor="middle" font-size="12" fill="#4a5568">Narrative Idealist</text>
+                        <text x="285" y="155" text-anchor="start" font-size="12" fill="#4a5568">Vibrant Explorer</text>
+                        <text x="150" y="295" text-anchor="middle" font-size="12" fill="#4a5568">Steady Guardian</text>
+                        <text x="15" y="155" text-anchor="end" font-size="12" fill="#4a5568">Compassionate Nurturer</text>
+                        <text x="75" y="75" text-anchor="middle" font-size="12" fill="#4a5568">Mindful Architect</text>
+                    </svg>
                 </div>
                 
                 <h2 class="section-title">Your Compatibility Scores</h2>
@@ -804,10 +839,10 @@ const createPDFHTML = (archetype: any, customerName?: string, sessionId?: string
             </div>
 
             <!-- Couples Mode CTA -->
-            <div style="background: #f0e6ff; border: 1px solid #d6bcfa; border-radius: 8px; padding: 20px; margin: 30px 0; border-left: 4px solid #805ad5;">
-                <h3 style="font-weight: 600; color: #553c9a; margin-bottom: 10px; font-size: 16px;">Want to compare this with your partner's archetype?</h3>
-                <p style="color: #553c9a; line-height: 1.6;">
-                    Try Couples Mode to discover how your archetypes interact and get personalized insights for your relationship. Visit affinityai.me/couples to get started.
+            <div class="couples-cta">
+                <h3 class="couples-cta-title">Want to compare this with your partner's archetype?</h3>
+                <p class="couples-cta-text">
+                    Try Couples Mode to discover how your archetypes interact and get personalized insights for your relationship. Visit <strong>affinityai.me/couples</strong> to get started.
                 </p>
             </div>
         </div>
@@ -815,7 +850,7 @@ const createPDFHTML = (archetype: any, customerName?: string, sessionId?: string
         <div class="page-number">Page 6</div>
     </div>
 
-    <!-- Page 6: Physical Intimacy & Attraction -->
+    <!-- Page 7: Physical Intimacy & Attraction -->
     <div class="page">
         <div class="content-page">
             <header class="page-header">
@@ -827,9 +862,9 @@ const createPDFHTML = (archetype: any, customerName?: string, sessionId?: string
                 <h2 class="section-title">Your Physical Connection Style</h2>
                 <p class="section-content">As a ${archetype.name}, your approach to physical intimacy is influenced by your overall relationship style. ${getRandomPhrase()}, and this extends to how you experience physical connection.</p>
                 
-                <div style="background: #fef5f5; border: 1px solid #fed7d7; border-radius: 8px; padding: 20px; margin: 20px 0; border-left: 4px solid #e53e3e;">
-                    <div style="font-weight: 600; color: #c53030; margin-bottom: 8px;">Your Intimacy Language</div>
-                    <p style="color: #742a2a; line-height: 1.6;">For you, physical intimacy is most meaningful when it's an extension of emotional connection. You value the story behind each touch and the meaning behind physical expressions of love. While others might separate physical and emotional attraction, for you they're deeply intertwined.</p>
+                <div style="background: #fef5f5; border: 1px solid #fed7d7; border-radius: 8px; padding: 15px; margin: 15px 0; border-left: 4px solid #e53e3e;">
+                    <div style="font-weight: 600; color: #c53030; margin-bottom: 6px;">Your Intimacy Language</div>
+                    <p style="color: #742a2a; line-height: 1.5; font-size: 13px;">For you, physical intimacy is most meaningful when it's an extension of emotional connection. You value the story behind each touch and the meaning behind physical expressions of love. While others might separate physical and emotional attraction, for you they're deeply intertwined.</p>
                 </div>
                 
                 <p class="section-content">Your physical intimacy style tends to be:</p>
@@ -861,10 +896,10 @@ const createPDFHTML = (archetype: any, customerName?: string, sessionId?: string
             </div>
         </div>
         <div class="footer">Generated by Affinity AI - Your guide to deeper connections</div>
-        <div class="page-number">Page 6</div>
+        <div class="page-number">Page 7</div>
     </div>
 
-    <!-- Page 7: Relationship Patterns & Cycles -->
+    <!-- Page 8: Relationship Patterns & Cycles -->
     <div class="page">
         <div class="content-page">
             <header class="page-header">
@@ -876,25 +911,25 @@ const createPDFHTML = (archetype: any, customerName?: string, sessionId?: string
                 <h2 class="section-title">Your Relationship Cycle</h2>
                 <p class="section-content">As a ${archetype.name}, you tend to move through relationships in a pattern that reflects your ${style.tone} nature. Understanding this cycle can help you navigate relationships more consciously.</p>
                 
-                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin: 20px 0;">
-                    <div style="background: #ebf8ff; border: 1px solid #bee3f8; border-radius: 8px; padding: 15px;">
-                        <div style="font-weight: 600; color: #2b6cb0; margin-bottom: 8px;">Initial Connection</div>
-                        <p style="color: #2c5282; font-size: 13px;">You're drawn to people who show depth, authenticity, and emotional intelligence. You value meaningful early conversations over surface-level small talk.</p>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 15px 0;">
+                    <div style="background: #ebf8ff; border: 1px solid #bee3f8; border-radius: 8px; padding: 12px;">
+                        <div style="font-weight: 600; color: #2b6cb0; margin-bottom: 6px; font-size: 14px;">Initial Connection</div>
+                        <p style="color: #2c5282; font-size: 12px; line-height: 1.4;">You're drawn to people who show depth, authenticity, and emotional intelligence. You value meaningful early conversations over surface-level small talk.</p>
                     </div>
                     
-                    <div style="background: #ebf8ff; border: 1px solid #bee3f8; border-radius: 8px; padding: 15px;">
-                        <div style="font-weight: 600; color: #2b6cb0; margin-bottom: 8px;">Building Intimacy</div>
-                        <p style="color: #2c5282; font-size: 13px;">You create closeness through deep conversations, shared experiences, and emotional vulnerability. This phase feels especially rewarding for you.</p>
+                    <div style="background: #ebf8ff; border: 1px solid #bee3f8; border-radius: 8px; padding: 12px;">
+                        <div style="font-weight: 600; color: #2b6cb0; margin-bottom: 6px; font-size: 14px;">Building Intimacy</div>
+                        <p style="color: #2c5282; font-size: 12px; line-height: 1.4;">You create closeness through deep conversations, shared experiences, and emotional vulnerability. This phase feels especially rewarding for you.</p>
                     </div>
                     
-                    <div style="background: #ebf8ff; border: 1px solid #bee3f8; border-radius: 8px; padding: 15px;">
-                        <div style="font-weight: 600; color: #2b6cb0; margin-bottom: 8px;">Challenge Point</div>
-                        <p style="color: #2c5282; font-size: 13px;">You may struggle when the relationship faces practical challenges or when everyday reality doesn't match your ideal vision. This is a growth opportunity.</p>
+                    <div style="background: #ebf8ff; border: 1px solid #bee3f8; border-radius: 8px; padding: 12px;">
+                        <div style="font-weight: 600; color: #2b6cb0; margin-bottom: 6px; font-size: 14px;">Challenge Point</div>
+                        <p style="color: #2c5282; font-size: 12px; line-height: 1.4;">You may struggle when the relationship faces practical challenges or when everyday reality doesn't match your ideal vision. This is a growth opportunity.</p>
                     </div>
                     
-                    <div style="background: #ebf8ff; border: 1px solid #bee3f8; border-radius: 8px; padding: 15px;">
-                        <div style="font-weight: 600; color: #2b6cb0; margin-bottom: 8px;">Deepening or Transition</div>
-                        <p style="color: #2c5282; font-size: 13px;">If you navigate challenges successfully, your relationships reach a new level of authentic connection. If not, you may begin seeking a new connection.</p>
+                    <div style="background: #ebf8ff; border: 1px solid #bee3f8; border-radius: 8px; padding: 12px;">
+                        <div style="font-weight: 600; color: #2b6cb0; margin-bottom: 6px; font-size: 14px;">Deepening or Transition</div>
+                        <p style="color: #2c5282; font-size: 12px; line-height: 1.4;">If you navigate challenges successfully, your relationships reach a new level of authentic connection. If not, you may begin seeking a new connection.</p>
                     </div>
                 </div>
                 
@@ -916,55 +951,6 @@ const createPDFHTML = (archetype: any, customerName?: string, sessionId?: string
                 <div class="highlight-box">
                     <div class="highlight-title">Pattern Breakthrough</div>
                     <p>The most powerful way to change relationship patterns is to recognize them as they're happening. When you notice yourself following a familiar script, pause and ask, "How could I respond differently this time?"</p>
-                </div>
-            </div>
-        </div>
-        <div class="footer">Generated by Affinity AI - Your guide to deeper connections</div>
-        <div class="page-number">Page 7</div>
-    </div>
-
-    <!-- Page 8: Couples Compatibility -->
-    <div class="page">
-        <div class="content-page">
-            <header class="page-header">
-                <h1 class="page-title">Couples Compatibility Guide</h1>
-                <p class="page-subtitle">Understanding How You Connect With Different Types</p>
-            </header>
-
-            <div class="section">
-                <h2 class="section-title">Your Compatibility Dynamics</h2>
-                <p class="section-content">As a ${archetype.name} with your ${style.tone} approach to relationships, you have unique dynamics with each archetype. Here's how you typically connect with different types:</p>
-                
-                <div style="background: #f0e6ff; border: 1px solid #d6bcfa; border-radius: 8px; padding: 20px; margin: 20px 0; border-left: 4px solid #805ad5;">
-                    <div style="font-weight: 600; color: #553c9a; margin-bottom: 8px;">Most Compatible Matches</div>
-                    <p style="color: #553c9a; line-height: 1.6; margin-bottom: 12px;">You naturally connect well with: ${archetype.compatibleWith.join(' & ')}</p>
-                    <p style="color: #553c9a; line-height: 1.6;">These archetypes complement your ${style.tone} nature while appreciating your unique perspective. They provide balance to your approach while sharing enough common values to create harmony.</p>
-                </div>
-                
-                <p class="section-content">When dating or in a relationship with your compatible matches, focus on:</p>
-                <ul class="bullet-list">
-                    <li class="bullet-item">Appreciating how their different approach complements yours</li>
-                    <li class="bullet-item">Learning from their strengths while sharing your own</li>
-                    <li class="bullet-item">Communicating when your needs differ due to your archetype differences</li>
-                    <li class="bullet-item">Creating relationship rituals that honor both your styles</li>
-                </ul>
-            </div>
-
-            <div class="section">
-                <h2 class="section-title">Navigating Differences</h2>
-                <p class="section-content">Even with less naturally compatible types, understanding can create beautiful relationships. When connecting with someone different from your natural matches:</p>
-                
-                <ul class="bullet-list">
-                    <li class="bullet-item">Recognize that their different approach isn't wrong—just different</li>
-                    <li class="bullet-item">Explicitly discuss your different needs and preferences</li>
-                    <li class="bullet-item">Appreciate the growth that comes from stretching beyond your comfort zone</li>
-                    <li class="bullet-item">Look for unexpected complementary strengths in your differences</li>
-                    <li class="bullet-item">Create "translation guides" for how you each express and receive love</li>
-                </ul>
-                
-                <div class="highlight-box">
-                    <div class="highlight-title">Compatibility Wisdom</div>
-                    <p>The most successful relationships aren't always between the most naturally compatible types—they're between people who understand and appreciate their differences while building on their shared values.</p>
                 </div>
             </div>
         </div>
@@ -1041,3 +1027,4 @@ export const handler: Handler = async (event) => {
     };
   }
 };
+
