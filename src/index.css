@@ -1,0 +1,153 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light;
+  color: #213547;
+  background-color: #ffffff;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: #ffffff;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #f9f9f9;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+
+button:hover {
+  border-color: #646cff;
+}
+
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+/* Custom gradient utilities */
+.bg-gradient-primary {
+  background: linear-gradient(135deg, #6c5ce7, #fd79a8);
+}
+
+.text-gradient-primary {
+  background: linear-gradient(135deg, #6c5ce7, #fd79a8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Ensure Stripe checkout form has proper contrast */
+.StripeElement {
+  color: #424770 !important;
+  background-color: #ffffff !important;
+}
+
+.StripeElement--focus {
+  box-shadow: 0 1px 3px 0 #cfd7df !important;
+}
+
+.StripeElement--invalid {
+  border-color: #fa755a !important;
+}
+
+.StripeElement--webkit-autofill {
+  background-color: #fefde5 !important;
+}
+
+/* Ensure all form inputs have proper contrast */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="number"] {
+  color: #32325d !important;
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+}
+
+/* Override any potential CSS conflicts with Stripe */
+.sr-root {
+  color: #32325d !important;
+}
+
+.sr-main {
+  background-color: #ffffff !important;
+}
+
+.sr-field-error {
+  color: #fa755a !important;
+}
+
+/* Stripe Checkout specific styling */
+.StripeCheckout {
+  color: #32325d !important;
+  background-color: #ffffff !important;
+  width: 100% !important;
+  max-width: 500px !important;
+  margin: 0 auto !important;
+}
+
+/* Ensure all Stripe form elements have dark text */
+.StripeElement input,
+.StripeElement textarea,
+.StripeElement select {
+  color: #424770 !important;
+  background-color: white !important;
+}
+
+/* Override any potential white text */
+.StripeElement * {
+  color: #32325d !important;
+}
+
+/* Ensure labels are visible */
+.StripeElement label {
+  color: #6b7c93 !important;
+}
+
+/* Fix Stripe checkout form layout */
+.stripe-form {
+  width: 100% !important;
+  max-width: 500px !important;
+  margin: 0 auto !important;
+}
+
+/* Ensure Stripe iframe has proper width */
+iframe.stripe-checkout-app {
+  width: 100% !important;
+  max-width: 500px !important;
+  margin: 0 auto !important;
+}
+
+/* Fix Stripe button */
+button.stripe-button-el,
+button.stripe-button-el span {
+  background-image: none !important;
+  background-color: #6c5ce7 !important;
+  text-shadow: none !important;
+}
