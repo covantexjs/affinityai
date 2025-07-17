@@ -308,7 +308,7 @@ const PremiumPage = () => {
               </div>
               
               <div className="max-w-xl mx-auto">
-                <PremiumCheckoutButton variant="primary" />
+                <PremiumCheckoutButton variant="primary" className="bg-white text-primary-600 hover:bg-gray-100 shadow-lg border border-primary-200 font-semibold" />
               </div>
             </Card>
           </motion.div>

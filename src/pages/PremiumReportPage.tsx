@@ -66,6 +66,23 @@ const PremiumReportPage = () => {
   const [supabaseConnected, setSupabaseConnected] = useState(false); 
   const [reportReady, setReportReady] = useState(false);
   const { isGenerating, generatePDF, downloadPDF, downloadUrl, error: pdfError } = usePDFGeneration();
+
+  // Get stored payment data from localStorage
+  const getStoredPaymentData = () => {
+    try {
+      const stored = localStorage.getItem('affinityai_payment_data');
+      if (stored) {
+        const data = JSON.parse(stored);
+        // Check if data is recent (within 30 days)
+        if (Date.now() - data.timestamp < 30 * 24 * 60 * 60 * 1000) {
+          return data;
+        }
+      }
+    } catch (error) {
+      console.error('Failed to retrieve stored payment data:', error);
+    }
+    return null;
+  };
   
   // Enhanced session data interface
   interface SessionData {
@@ -93,6 +110,41 @@ const PremiumReportPage = () => {
     console.log('🔍 [PREMIUM REPORT] Page loaded with params:', {
       sessionId, paid: isPaid, existing: isExisting
     });
+
+    // If no quiz result in state, try to restore from localStorage
+    if (!result) {
+      const storedData = getStoredPaymentData();
+      if (storedData && storedData.sessionId === sessionId) {
+        console.log('🔄 [PREMIUM REPORT] Restoring quiz state from localStorage');
+        
+        // Set test mode to provide basic functionality
+        setTestMode();
+        
+        // Create purchase data from stored information
+        setPurchaseData({
+          id: storedData.sessionId,
+          email: storedData.email,
+          name: storedData.name,
+          archetype_id: storedData.archetype.id,
+          archetype_name: storedData.archetype.name,
+          dimension_scores: {
+            emotional_depth: 1.5,
+            relational_style: 0.8,
+            values_alignment: 2.0,
+            communication_style: 1.2
+          },
+          stripe_session_id: storedData.sessionId,
+          payment_status: 'paid',
+          amount_paid: 1900,
+          currency: 'usd',
+          created_at: new Date().toISOString()
+        });
+        
+        setShowThankYouMessage(false);
+        setIsLoading(false);
+        return;
+      }
+    }
 
     // Handle existing customer access
     if (isExisting && sessionId?.startsWith('existing_customer_')) {

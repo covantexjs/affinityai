@@ -33,6 +33,26 @@ export default function Success() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { result, setTestMode } = useQuizStore();
+
+  // Store payment data in localStorage for persistent access
+  const storePaymentData = (sessionData: any, quizResult: any) => {
+    const paymentData = {
+      sessionId: sessionData.session_id || searchParams.get('session_id'),
+      email: sessionData.customer_email || sessionData.email,
+      name: sessionData.customer_name || sessionData.name,
+      archetype: quizResult.archetype,
+      answers: quizResult.answers,
+      paymentVerified: true,
+      timestamp: Date.now()
+    };
+    
+    try {
+      localStorage.setItem('affinityai_payment_data', JSON.stringify(paymentData));
+      console.log('💾 [SUCCESS] Payment data stored in localStorage');
+    } catch (error) {
+      console.error('Failed to store payment data:', error);
+    }
+  };
   
   useEffect(() => {
     if (!result) {
@@ -85,6 +105,11 @@ export default function Success() {
         
         console.log('✅ [SUCCESS] Payment verified:', data);
         setSessionData(data);
+        
+        // Store payment data in localStorage for persistent access
+        if (result) {
+          storePaymentData(data, result);
+        }
         
         // Store purchase data if Supabase is connected
         if (isConnected && result) {
