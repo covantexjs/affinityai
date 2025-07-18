@@ -15,6 +15,7 @@ import Card from '../components/ui/Card';
 import GradientText from '../components/ui/GradientText';
 import PDFDownloadButton from '../components/ui/PDFDownloadButton';
 import EnhancedPDFDownloadButton from '../components/ui/EnhancedPDFDownloadButton';
+import DirectPDFDownloadButton from '../components/ui/DirectPDFDownloadButton';
 
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
@@ -580,6 +581,13 @@ const PremiumReportPage = () => {
                   quizAnswers={result?.answers}
                   purchaseData={purchaseData}
                   className="w-full"
+                />
+                
+                <DirectPDFDownloadButton
+                  archetype={archetype}
+                  customerName={purchaseData?.name}
+                  className="w-full"
+                  variant="secondary"
                 />
                 
                 <div className="bg-green-50 border border-green-200 rounded-lg p-4">
