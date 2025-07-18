@@ -197,12 +197,12 @@ const createPDFHTML = (archetype: any, customerName?: string, sessionId?: string
         * {
             margin: 0;
             padding: 0;
-            box-sizing: border-box !important;
+            box-sizing: border-box;
         }
         
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            line-height: 1.6;
+            line-height: 1.5;
             color: #2d3748;
             background: white;
         }
@@ -210,22 +210,16 @@ const createPDFHTML = (archetype: any, customerName?: string, sessionId?: string
         .page {
             width: 210mm;
             min-height: 297mm;
-            padding: 8mm; /* Reduced from 12mm */
+            padding: 8mm;
             margin: 0 auto;
             background: white;
-            page-break-after: auto; /* Changed from always !important */
             position: relative;
-        }
-        
-        .page:last-child {
-            page-break-after: avoid;
         }
         
         /* Cover Page Styles */
         .cover-page {
-            padding: 20px;
-            text-align: center !important;
-            min-height: 85% !important;
+            text-align: center;
+            min-height: 85%;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -233,22 +227,7 @@ const createPDFHTML = (archetype: any, customerName?: string, sessionId?: string
             background: linear-gradient(135deg, #f8f9ff 0%, #e6f3ff 100%);
             border-radius: 12px;
             padding: 40px;
-            page-break-after: always !important;
-        }
-        
-        .cover-title {
-            display: none;
-            font-weight: 700;
-            color: #6c5ce7;
-            margin-bottom: 16px;
-            letter-spacing: -0.02em;
-        }
-        
-        .cover-subtitle {
-            display: none;
-            color: #6c5ce7;
-            margin-bottom: 40px;
-            font-weight: 400;
+            margin-bottom: 20px;
         }
         
         .cover-archetype {
@@ -281,21 +260,19 @@ const createPDFHTML = (archetype: any, customerName?: string, sessionId?: string
         /* Content Page Styles */
         .content-page {
             padding: 10px 0;
-            page-break-before: auto !important;
         }
         
         .page-header {
             border-bottom: 3px solid #6c5ce7;
-            padding-bottom: 15px; /* Reduced from 20px */
-            margin-bottom: 20px; /* Reduced from 40px */
-            page-break-after: avoid;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
         }
         
         .page-title {
-            font-size: 28px; /* Reduced from 32px */
+            font-size: 28px;
             font-weight: 700;
             color: #6c5ce7;
-            margin-bottom: 5px; /* Reduced from 8px */
+            margin-bottom: 5px;
         }
         
         .page-subtitle {
@@ -304,75 +281,69 @@ const createPDFHTML = (archetype: any, customerName?: string, sessionId?: string
         }
         
         .section {
-            margin-bottom: 20px; /* Reduced from 32px */
-            page-break-inside: auto; /* Changed from avoid !important */
+            margin-bottom: 20px;
         }
         
         .section-title {
             font-size: 20px;
             font-weight: 600;
             color: #2d3748;
-            margin-bottom: 10px; /* Reduced from 16px */
+            margin-bottom: 10px;
             padding-left: 16px;
             border-left: 4px solid #6c5ce7;
         }
         
         .section-content {
             font-size: 14px;
-            line-height: 1.6; /* Reduced from 1.7 */
+            line-height: 1.6;
             color: #4a5568;
-            margin-bottom: 10px; /* Reduced from 16px */
+            margin-bottom: 10px;
         }
         
         .highlight-box {
             background: linear-gradient(135deg, #f8f9ff 0%, #e6f3ff 100%);
             border: 1px solid #e2e8f0;
             border-radius: 8px;
-            padding: 15px; /* Reduced from 20px */
-            margin: 15px 0; /* Reduced from 20px */
+            padding: 15px;
+            margin: 15px 0;
             border-left: 4px solid #6c5ce7;
-            page-break-inside: avoid;
         }
         
         .highlight-title {
             font-weight: 600;
             color: #6c5ce7;
-            margin-bottom: 5px; /* Reduced from 8px */
+            margin-bottom: 5px;
         }
         
         .keywords-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 10px; /* Reduced from 12px */
-            margin: 15px 0; /* Reduced from 20px */
-            page-break-inside: auto;
+            gap: 10px;
+            margin: 15px 0;
         }
         
         .keyword-item {
             background: #f7fafc;
             border: 1px solid #e2e8f0;
             border-radius: 6px;
-            padding: 10px; /* Reduced from 12px 16px */
+            padding: 10px;
             text-align: center;
             font-weight: 500;
             color: #4a5568;
-            page-break-inside: avoid;
         }
         
         .compatibility-section {
             background: #f0fff4;
             border: 1px solid #c6f6d5;
             border-radius: 8px;
-            padding: 15px; /* Reduced from 20px */
-            margin: 15px 0; /* Reduced from 20px */
-            page-break-inside: auto;
+            padding: 15px;
+            margin: 15px 0;
         }
         
         .compatibility-title {
             color: #2f855a;
             font-weight: 600;
-            margin-bottom: 10px; /* Reduced from 12px */
-            page-break-inside: avoid !important;
+            margin-bottom: 10px;
         }
         
         .compatibility-list {
@@ -384,26 +355,23 @@ const createPDFHTML = (archetype: any, customerName?: string, sessionId?: string
             background: white;
             border: 1px solid #c6f6d5;
             border-radius: 4px;
-            padding: 6px 10px; /* Reduced from 8px 12px */
-            margin: 3px 0; /* Reduced from 4px */
+            padding: 6px 10px;
+            margin: 3px 0;
             color: #2f855a;
             font-weight: 500;
-            page-break-inside: avoid;
         }
         
         .bullet-list {
             list-style: none;
             padding: 0;
-            margin: 12px 0; /* Reduced from 16px */
-            page-break-inside: auto;
+            margin: 12px 0;
         }
         
         .bullet-item {
             position: relative;
-            padding-left: 20px; /* Reduced from 24px */
-            margin-bottom: 6px; /* Reduced from 8px */
+            padding-left: 20px;
+            margin-bottom: 6px;
             color: #4a5568;
-            page-break-inside: avoid;
         }
         
         .bullet-item::before {
@@ -418,50 +386,47 @@ const createPDFHTML = (archetype: any, customerName?: string, sessionId?: string
             background: #fffaf0;
             border: 1px solid #fed7aa;
             border-radius: 8px;
-            padding: 15px; /* Reduced from 20px */
-            margin: 15px 0; /* Reduced from 20px */
-            page-break-inside: auto;
+            padding: 15px;
+            margin: 15px 0;
         }
         
         .conversation-title {
             color: #c05621;
             font-weight: 600;
-            margin-bottom: 10px; /* Reduced from 12px */
-            page-break-inside: avoid !important;
+            margin-bottom: 10px;
         }
         
         .conversation-item {
             background: white;
             border: 1px solid #fed7aa;
             border-radius: 4px;
-            padding: 10px; /* Reduced from 12px */
-            margin: 6px 0; /* Reduced from 8px */
+            padding: 10px;
+            margin: 6px 0;
             font-style: italic;
             color: #744210;
-            page-break-inside: avoid;
         }
         
         .footer {
             position: absolute;
-            bottom: 15mm; /* Reduced from 20mm */
-            left: 15mm; /* Reduced from 20mm */
-            right: 15mm; /* Reduced from 20mm */
+            bottom: 15mm;
+            left: 15mm;
+            right: 15mm;
             text-align: center;
-            font-size: 11px; /* Reduced from 12px */
+            font-size: 11px;
             color: #a0aec0;
             border-top: 1px solid #e2e8f0;
-            padding-top: 12px; /* Reduced from 16px */
+            padding-top: 12px;
         }
         
         .page-number {
             position: absolute;
-            bottom: 8mm; /* Reduced from 10mm */
-            right: 15mm; /* Reduced from 20mm */
-            font-size: 11px; /* Reduced from 12px */
+            bottom: 8mm;
+            right: 15mm;
+            font-size: 11px;
             color: #a0aec0;
         }
         
-        /* Couples CTA styling */
+        /* Couples CTA styling - ENHANCED */
         .couples-cta {
             background: linear-gradient(135deg, #f0e6ff 0%, #e6e6ff 100%);
             border: 1px solid #d6bcfa;
@@ -469,7 +434,7 @@ const createPDFHTML = (archetype: any, customerName?: string, sessionId?: string
             padding: 15px;
             margin: 15px 0;
             border-left: 4px solid #805ad5;
-            page-break-inside: avoid;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
         
         .couples-cta-title {
@@ -483,14 +448,6 @@ const createPDFHTML = (archetype: any, customerName?: string, sessionId?: string
             color: #553c9a;
             line-height: 1.4;
             font-size: 13px;
-        }
-        
-        /* Critical sections that should never break */
-        .cover-page,
-        .highlight-box .highlight-title,
-        .compatibility-section .compatibility-title,
-        .conversation-starters .conversation-title {
-            page-break-inside: avoid !important;
         }
         
         /* Print Styles */
@@ -507,31 +464,30 @@ const createPDFHTML = (archetype: any, customerName?: string, sessionId?: string
             .page {
                 margin: 0;
                 box-shadow: none;
-                page-break-after: auto;
-                page-break-before: auto !important;
+                page-break-after: always;
             }
             
-            /* Only force page breaks where absolutely necessary */
-            .page:nth-child(1) {
-                page-break-after: always !important; /* Cover page should break */
+            .page:last-child {
+                page-break-after: auto;
             }
         }
     </style>
 </head>
 <body>
     <!-- Cover Page -->
-    <div class="page">
+    <div class="page" style="page-break-after: always;">
         <div class="cover-page">
-            <h1 class="cover-title">Love Blueprint</h1>
             <h2 class="cover-archetype">${archetype.name}: The Love Blueprint</h2>
             <p class="cover-tagline">"Co-authoring your love story with clarity and heart."</p>
             ${customerName ? `<p class="cover-customer">Prepared for ${customerName}</p>` : ''}
             <p class="cover-date">${currentDate}</p>
         </div>
+        <div class="footer">Generated by Affinity AI - Your guide to deeper connections</div>
+        <div class="page-number">Cover</div>
     </div>
 
     <!-- Page 1: Archetype Overview -->
-    <div class="page">
+    <div class="page" style="page-break-after: always;">
         <div class="content-page">
             <header class="page-header">
                 <h1 class="page-title">Your Archetype: ${archetype.name}</h1>
@@ -575,7 +531,7 @@ const createPDFHTML = (archetype: any, customerName?: string, sessionId?: string
     </div>
 
     <!-- Page 2: Communication Style -->
-    <div class="page">
+    <div class="page" style="page-break-after: always;">
         <div class="content-page">
             <header class="page-header">
                 <h1 class="page-title">Your Communication Style</h1>
@@ -617,13 +573,21 @@ const createPDFHTML = (archetype: any, customerName?: string, sessionId?: string
                 </div>
                 <p class="section-content">These questions align with your ${style.tone} nature and will help you create the kind of meaningful conversations you naturally value.</p>
             </div>
+            
+            <!-- Couples Mode CTA - ADDED TO PAGE 2 -->
+            <div class="couples-cta" style="margin-top: 20px;">
+                <h3 class="couples-cta-title">Want to compare this with your partner's archetype?</h3>
+                <p class="couples-cta-text">
+                    Try Couples Mode to discover how your archetypes interact and get personalized insights for your relationship. Visit <strong>affinityai.me/couples</strong> to get started.
+                </p>
+            </div>
         </div>
         <div class="footer">Generated by Affinity AI - Your guide to deeper connections</div>
         <div class="page-number">Page 2</div>
     </div>
 
     <!-- Page 3: Relationship Dynamics -->
-    <div class="page">
+    <div class="page" style="page-break-after: always;">
         <div class="content-page">
             <header class="page-header">
                 <h1 class="page-title">Your Relationship Dynamics</h1>
@@ -663,10 +627,10 @@ const createPDFHTML = (archetype: any, customerName?: string, sessionId?: string
                 </ul>
             </div>
             
-            <!-- Couples Mode CTA -->
-            <div class="couples-cta">
-                <h3 class="couples-cta-title">Want to compare this with your partner's archetype?</h3>
-                <p class="couples-cta-text">
+            <!-- Couples Mode CTA - ENHANCED -->
+            <div class="couples-cta" style="margin-top: 20px; background: linear-gradient(135deg, #f0e6ff 0%, #e6e6ff 100%); border: 1px solid #d6bcfa; border-radius: 8px; padding: 15px; border-left: 4px solid #805ad5; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                <h3 style="font-weight: 600; color: #553c9a; margin-bottom: 8px; font-size: 16px;">Want to compare this with your partner's archetype?</h3>
+                <p style="color: #553c9a; line-height: 1.4; font-size: 13px;">
                     Try Couples Mode to discover how your archetypes interact and get personalized insights for your relationship. Visit <strong>affinityai.me/couples</strong> to get started.
                 </p>
             </div>
@@ -676,7 +640,7 @@ const createPDFHTML = (archetype: any, customerName?: string, sessionId?: string
     </div>
 
     <!-- Page 4: Personal Growth -->
-    <div class="page">
+    <div class="page" style="page-break-after: always;">
         <div class="content-page">
             <header class="page-header">
                 <h1 class="page-title">Personal Growth Opportunities</h1>
@@ -722,7 +686,7 @@ const createPDFHTML = (archetype: any, customerName?: string, sessionId?: string
     </div>
 
     <!-- Page 5: Action Steps -->
-    <div class="page">
+    <div class="page" style="page-break-after: always;">
         <div class="content-page">
             <header class="page-header">
                 <h1 class="page-title">Your Next Steps</h1>
@@ -764,10 +728,10 @@ const createPDFHTML = (archetype: any, customerName?: string, sessionId?: string
                 <p style="text-align: center; font-size: 14px; margin-top: 8px;">Your ${style.tone} approach to relationships is a gift. The right person will treasure these qualities, not ask you to diminish them.</p>
             </div>
 
-            <!-- Couples Mode CTA -->
-            <div class="couples-cta" style="margin-top: 20px;">
-                <h3 class="couples-cta-title">Want to compare this with your partner's archetype?</h3>
-                <p class="couples-cta-text">
+            <!-- Couples Mode CTA - ENHANCED -->
+            <div class="couples-cta" style="margin-top: 20px; background: linear-gradient(135deg, #f0e6ff 0%, #e6e6ff 100%); border: 1px solid #d6bcfa; border-radius: 8px; padding: 15px; border-left: 4px solid #805ad5; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                <h3 style="font-weight: 600; color: #553c9a; margin-bottom: 8px; font-size: 16px;">Want to compare this with your partner's archetype?</h3>
+                <p style="color: #553c9a; line-height: 1.4; font-size: 13px;">
                     Try Couples Mode to discover how your archetypes interact and get personalized insights for your relationship. Visit <strong>affinityai.me/couples</strong> to get started.
                 </p>
             </div>
@@ -780,8 +744,8 @@ const createPDFHTML = (archetype: any, customerName?: string, sessionId?: string
         <div class="page-number">Page 5</div>
     </div>
     
-    <!-- Page 6: Compatibility Radar -->
-    <div class="page">
+    <!-- Page 6: Compatibility Radar - ENHANCED -->
+    <div class="page" style="page-break-after: always;">
         <div class="content-page">
             <header class="page-header">
                 <h1 class="page-title">Your Compatibility Radar</h1>
@@ -794,9 +758,9 @@ const createPDFHTML = (archetype: any, customerName?: string, sessionId?: string
                     This radar chart shows your natural compatibility with each romantic archetype. The further the point extends outward, the stronger the compatibility.
                 </p>
                 
-                <!-- Compatibility Radar Visualization -->
-                <div style="display: flex; justify-content: center; margin: 15px 0;">
-                    <svg width="300" height="300" viewBox="0 0 300 300" style="margin: 0 auto;">
+                <!-- Compatibility Radar Visualization - ENHANCED WITH INLINE SVG -->
+                <div style="text-align: center; margin: 20px 0; background-color: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                    <img src="data:image/svg+xml;charset=utf-8,${encodeURIComponent(`<svg width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
                         <!-- Background circles -->
                         <circle cx="150" cy="150" r="150" fill="none" stroke="#e2e8f0" stroke-width="1" />
                         <circle cx="150" cy="150" r="112.5" fill="none" stroke="#e2e8f0" stroke-width="1" />
@@ -821,7 +785,8 @@ const createPDFHTML = (archetype: any, customerName?: string, sessionId?: string
                         <text x="150" y="295" text-anchor="middle" font-size="12" fill="#4a5568">Steady Guardian</text>
                         <text x="15" y="155" text-anchor="end" font-size="12" fill="#4a5568">Compassionate Nurturer</text>
                         <text x="75" y="75" text-anchor="middle" font-size="12" fill="#4a5568">Mindful Architect</text>
-                    </svg>
+                    </svg>`)}" alt="Compatibility Radar Chart" style="max-width: 300px; height: auto;" />
+                    <p style="font-size: 12px; color: #718096; margin-top: 10px;">Your Compatibility Radar: Showing relative compatibility with different archetypes</p>
                 </div>
                 
                 <h2 class="section-title">Your Compatibility Scores</h2>
@@ -838,10 +803,10 @@ const createPDFHTML = (archetype: any, customerName?: string, sessionId?: string
                 </div>
             </div>
 
-            <!-- Couples Mode CTA -->
-            <div class="couples-cta">
-                <h3 class="couples-cta-title">Want to compare this with your partner's archetype?</h3>
-                <p class="couples-cta-text">
+            <!-- Couples Mode CTA - ENHANCED -->
+            <div class="couples-cta" style="margin-top: 20px; background: linear-gradient(135deg, #f0e6ff 0%, #e6e6ff 100%); border: 1px solid #d6bcfa; border-radius: 8px; padding: 15px; border-left: 4px solid #805ad5; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                <h3 style="font-weight: 600; color: #553c9a; margin-bottom: 8px; font-size: 16px;">Want to compare this with your partner's archetype?</h3>
+                <p style="color: #553c9a; line-height: 1.4; font-size: 13px;">
                     Try Couples Mode to discover how your archetypes interact and get personalized insights for your relationship. Visit <strong>affinityai.me/couples</strong> to get started.
                 </p>
             </div>
@@ -851,7 +816,7 @@ const createPDFHTML = (archetype: any, customerName?: string, sessionId?: string
     </div>
 
     <!-- Page 7: Physical Intimacy & Attraction -->
-    <div class="page">
+    <div class="page" style="page-break-after: always;">
         <div class="content-page">
             <header class="page-header">
                 <h1 class="page-title">Physical Intimacy & Attraction</h1>
@@ -952,6 +917,14 @@ const createPDFHTML = (archetype: any, customerName?: string, sessionId?: string
                     <div class="highlight-title">Pattern Breakthrough</div>
                     <p>The most powerful way to change relationship patterns is to recognize them as they're happening. When you notice yourself following a familiar script, pause and ask, "How could I respond differently this time?"</p>
                 </div>
+            </div>
+            
+            <!-- Couples Mode CTA - FINAL REMINDER -->
+            <div class="couples-cta" style="margin-top: 20px; background: linear-gradient(135deg, #f0e6ff 0%, #e6e6ff 100%); border: 1px solid #d6bcfa; border-radius: 8px; padding: 15px; border-left: 4px solid #805ad5; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                <h3 style="font-weight: 600; color: #553c9a; margin-bottom: 8px; font-size: 16px;">Ready to deepen your relationship insights?</h3>
+                <p style="color: #553c9a; line-height: 1.4; font-size: 13px;">
+                    Visit <strong>affinityai.me/couples</strong> to discover how your archetype interacts with your partner's and receive personalized guidance for your unique relationship dynamic.
+                </p>
             </div>
         </div>
         <div class="footer">Generated by Affinity AI - Your guide to deeper connections</div>
