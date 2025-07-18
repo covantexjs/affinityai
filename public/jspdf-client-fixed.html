@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Client-side PDF Generator (Fixed)</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      line-height: 1.6;
+      color: #333;
+    }
+    h1 {
+      color: #6c5ce7;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    input, select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    button {
+      background-color: #6c5ce7;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+      display: block;
+      margin: 30px auto;
+      width: 200px;
+    }
+    button:hover {
+      background-color: #5b4bc4;
+    }
+    .card {
+      background-color: #f8f9ff;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .instructions {
+      background-color: #f0e6ff;
+      border-left: 4px solid #6c5ce7;
+      padding: 15px;
+      margin-bottom: 30px;
+    }
+    .note {
+      background-color: #fff8e6;
+      border-left: 4px solid #f6ad55;
+      padding: 15px;
+      margin-top: 30px;
+    }
+    #status {
+      margin-top: 20px;
+      padding: 10px;
+      border-radius: 4px;
+      text-align: center;
+      display: none;
+    }
+    .loading {
+      background-color: #ebf8ff;
+      color: #2b6cb0;
+      border: 1px solid #bee3f8;
+    }
+    .success {
+      background-color: #f0fff4;
+      color: #2f855a;
+      border: 1px solid #c6f6d5;
+    }
+    .error {
+      background-color: #fff5f5;
+      color: #c53030;
+      border: 1px solid #fed7d7;
+    }
+    /* PDF Content Styles */
+    .pdf-page {
+      width: 595px;
+      height: 842px;
+      margin: 0 auto;
+      padding: 40px;
+      box-sizing: border-box;
+      background-color: white;
+      position: relative;
+      overflow: hidden;
+    }
+    .pdf-content {
+      font-family: Arial, sans-serif;
+      color: #333;
+    }
+    .pdf-title {
+      color: #6c5ce7;
+      font-size: 24px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .pdf-subtitle {
+      color: #6c5ce7;
+      font-size: 18px;
+      margin-bottom: 15px;
+    }
+    .pdf-text {
+      font-size: 12px;
+      line-height: 1.5;
+      margin-bottom: 10px;
+    }
+    .pdf-highlight {
+      background-color: #f0e6ff;
+      padding: 10px;
+      border-left: 3px solid #6c5ce7;
+      margin: 15px 0;
+    }
+    .pdf-footer {
+      position: absolute;
+      bottom: 20px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 10px;
+      color: #999;
+    }
+  </style>
+  <!-- Include jsPDF library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+  <h1>Client-side PDF Generator (Fixed)</h1>
+  
+  <div class="instructions">
+    <p>This page generates a PDF report directly in your browser. Fill in the form below and click "Generate PDF" to create your report.</p>
+  </div>
+  
+  <div class="card">
+    <form id="pdfForm">
+      <div class="form-group">
+        <label for="archetypeName">Archetype Name:</label>
+        <input type="text" id="archetypeName" name="archetypeName" value="Romantic Idealist" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="archetypeTagline">Archetype Tagline:</label>
+        <input type="text" id="archetypeTagline" name="archetypeTagline" value="Finding meaning in every connection" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="compatibleWith">Compatible With:</label>
+        <input type="text" id="compatibleWith" name="compatibleWith" value="Steady Guardian & Vibrant Explorer" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="customerName">Your Name (optional):</label>
+        <input type="text" id="customerName" name="customerName" placeholder="Enter your name">
+      </div>
+      
+      <button type="submit">Generate PDF</button>
+    </form>
+    
+    <div id="status"></div>
+  </div>
+  
+  <div class="note">
+    <p><strong>How it works:</strong> This tool generates the PDF directly in your browser using jsPDF. No server-side processing is required, making it faster and more reliable.</p>
+  </div>
+  
+  <script>
+    // Form submission handler
+    document.getElementById('pdfForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const statusEl = document.getElementById('status');
+      statusEl.className = 'loading';
+      statusEl.textContent = 'Generating PDF...';
+      statusEl.style.display = 'block';
+      
+      try {
+        // Get form values
+        const archetypeName = document.getElementById('archetypeName').value;
+        const archetypeTagline = document.getElementById('archetypeTagline').value;
+        const compatibleWith = document.getElementById('compatibleWith').value;
+        const customerName = document.getElementById('customerName').value || undefined;
+        
+        // Create filename
+        const filename = `${archetypeName.toLowerCase().replace(/\s+/g, '-')}-love-blueprint.pdf`;
+        
+        // Get current date
+        const currentDate = new Date().toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        });
+        
+        // Initialize jsPDF
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        
+        // Set font
+        doc.setFont('helvetica');
+        
+        // Page 1: Cover
+        doc.setFontSize(24);
+        doc.setTextColor(108, 92, 231); // #6c5ce7
+        doc.text('Love Blueprint', 105, 50, { align: 'center' });
+        
+        doc.setFontSize(16);
+        doc.text('Your AI-Enhanced Relationship Profile', 105, 70, { align: 'center' });
+        
+        doc.setFontSize(20);
+        doc.setTextColor(253, 121, 168); // #fd79a8
+        doc.text(archetypeName, 105, 100, { align: 'center' });
+        
+        doc.setFontSize(12);
+        doc.setTextColor(108, 92, 231); // #6c5ce7
+        doc.text(`"${archetypeTagline}"`, 105, 115, { align: 'center', italic: true });
+        
+        if (customerName) {
+          doc.setFontSize(12);
+          doc.setTextColor(0, 0, 0); // Black
+          doc.text(`Prepared for ${customerName}`, 105, 160, { align: 'center' });
+        }
+        
+        doc.setFontSize(10);
+        doc.setTextColor(150, 150, 150); // Gray
+        doc.text(currentDate, 105, 180, { align: 'center' });
+        
+        // Page 2: Overview
+        doc.addPage();
+        
+        doc.setFontSize(18);
+        doc.setTextColor(108, 92, 231); // #6c5ce7
+        doc.text('Your Unique Love Profile', 20, 30);
+        
+        doc.setFontSize(12);
+        doc.setTextColor(0, 0, 0); // Black
+        doc.text(`As a ${archetypeName}, you bring a unique perspective to relationships that combines`, 20, 50);
+        doc.text('emotional depth, authenticity, and meaningful connection. Your approach to love', 20, 60);
+        doc.text('is deeply personal and meaningful.', 20, 70);
+        
+        // Highlight box
+        doc.setFillColor(240, 230, 255); // #f0e6ff
+        doc.rect(20, 80, 170, 30, 'F');
+        doc.setTextColor(0, 0, 0); // Black
+        doc.setFontSize(10);
+        doc.text(`As a ${archetypeName}, you don't just experience love—you create meaningful`, 25, 90);
+        doc.text('connections that become the foundation of your personal story and identity.', 25, 100);
+        
+        doc.setFontSize(18);
+        doc.setTextColor(108, 92, 231); // #6c5ce7
+        doc.text('Compatibility Overview', 20, 120);
+        
+        doc.setFontSize(12);
+        doc.setTextColor(0, 0, 0); // Black
+        doc.text(`You naturally connect well with: ${compatibleWith}`, 20, 140);
+        
+        // Couples CTA
+        doc.setFillColor(240, 230, 255); // #f0e6ff
+        doc.rect(20, 160, 170, 30, 'F');
+        doc.setTextColor(108, 92, 231); // #6c5ce7
+        doc.setFontSize(14);
+        doc.text('Want to compare with your partner?', 25, 170);
+        doc.setTextColor(0, 0, 0); // Black
+        doc.setFontSize(10);
+        doc.text('Try Couples Mode to discover how your archetypes interact and get', 25, 180);
+        doc.text('personalized insights for your relationship.', 25, 190);
+        
+        // Page 3: Compatibility Radar
+        doc.addPage();
+        
+        doc.setFontSize(18);
+        doc.setTextColor(108, 92, 231); // #6c5ce7
+        doc.text('Your Compatibility Radar', 20, 30);
+        
+        doc.setFontSize(12);
+        doc.setTextColor(0, 0, 0); // Black
+        doc.text('This visualization shows your natural compatibility with different relationship', 20, 50);
+        doc.text('archetypes. The further the point extends outward on each axis, the stronger', 20, 60);
+        doc.text('the compatibility.', 20, 70);
+        
+        // Compatibility percentages
+        doc.setFillColor(248, 249, 255); // #f8f9ff
+        doc.rect(50, 80, 110, 60, 'F');
+        doc.setFontSize(14);
+        doc.text('Compatibility Percentages:', 105, 95, { align: 'center' });
+        doc.setFontSize(12);
+        doc.text('Steady Guardian: 85%', 105, 110, { align: 'center' });
+        doc.text('Mindful Architect: 80%', 105, 120, { align: 'center' });
+        doc.text('Compassionate Nurturer: 75%', 105, 130, { align: 'center' });
+        doc.text('Vibrant Explorer: 85%', 105, 140, { align: 'center' });
+        
+        // Couples CTA
+        doc.setFillColor(240, 230, 255); // #f0e6ff
+        doc.rect(20, 160, 170, 30, 'F');
+        doc.setTextColor(108, 92, 231); // #6c5ce7
+        doc.setFontSize(14);
+        doc.text('Want to compare with your partner?', 25, 170);
+        doc.setTextColor(0, 0, 0); // Black
+        doc.setFontSize(10);
+        doc.text('Try Couples Mode to discover how your archetypes interact and get', 25, 180);
+        doc.text('personalized insights for your relationship.', 25, 190);
+        
+        // Page 4: Final page
+        doc.addPage();
+        
+        doc.setFontSize(18);
+        doc.setTextColor(108, 92, 231); // #6c5ce7
+        doc.text('Your Action Plan', 20, 30);
+        
+        doc.setFontSize(12);
+        doc.setTextColor(0, 0, 0); // Black
+        doc.text('Putting these insights into action will help you create the meaningful', 20, 50);
+        doc.text('relationships you desire. Here are practical steps you can take:', 20, 60);
+        
+        doc.setFontSize(14);
+        doc.text('This Week: Quick Wins', 20, 80);
+        doc.setFontSize(10);
+        doc.text('• Share one meaningful story from your past with someone you care about', 25, 95);
+        doc.text('• Practice expressing a practical need directly', 25, 105);
+        doc.text('• Notice and appreciate one 'ordinary' moment of connection', 25, 115);
+        
+        // Final Couples CTA
+        doc.setFillColor(240, 230, 255); // #f0e6ff
+        doc.rect(20, 160, 170, 40, 'F');
+        doc.setTextColor(108, 92, 231); // #6c5ce7
+        doc.setFontSize(14);
+        doc.text('Ready to explore your relationship compatibility?', 25, 170);
+        doc.setTextColor(0, 0, 0); // Black
+        doc.setFontSize(10);
+        doc.text('Try Couples Mode to discover how your archetypes interact and get', 25, 180);
+        doc.text('personalized insights for your relationship. Visit affinityai.me/couples', 25, 190);
+        doc.text('to get started.', 25, 200);
+        
+        doc.setTextColor(108, 92, 231); // #6c5ce7
+        doc.setFontSize(12);
+        doc.text('Thank you for taking this journey of self-discovery.', 105, 220, { align: 'center' });
+        doc.text('May your love story be everything you dream it can be.', 105, 230, { align: 'center' });
+        
+        // Save the PDF
+        doc.save(filename);
+        
+        // Update status
+        statusEl.className = 'success';
+        statusEl.textContent = 'PDF generated successfully!';
+      } catch (error) {
+        console.error('Error generating PDF:', error);
+        
+        // Update status
+        statusEl.className = 'error';
+        statusEl.textContent = `Error: ${error.message}`;
+      }
+    });
+  </script>
+</body>
+</html>
+
