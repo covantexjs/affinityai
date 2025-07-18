@@ -17,6 +17,7 @@ import PDFDownloadButton from '../components/ui/PDFDownloadButton';
 import EnhancedPDFDownloadButton from '../components/ui/EnhancedPDFDownloadButton';
 import DirectPDFDownloadButton from '../components/ui/DirectPDFDownloadButton';
 import MinimalPDFDownloadButton from '../components/ui/MinimalPDFDownloadButton';
+import ServerPDFDownloadButton from '../components/ui/ServerPDFDownloadButton';
 
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
@@ -596,6 +597,13 @@ const PremiumReportPage = () => {
                   customerName={purchaseData?.name}
                   className="w-full"
                   variant="outline"
+                />
+                
+                <ServerPDFDownloadButton
+                  archetype={archetype}
+                  customerName={purchaseData?.name}
+                  className="w-full"
+                  variant="primary"
                 />
                 
                 <div className="bg-green-50 border border-green-200 rounded-lg p-4">
