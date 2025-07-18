@@ -192,741 +192,485 @@ const createPDFHTML = (archetype: any, customerName?: string, sessionId?: string
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${archetype.name} Love Blueprint</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        
-        * {
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.5;
+            color: #333;
+            background: white;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            line-height: 1.5;
-            color: #2d3748;
-            background: white;
         }
         
         .page {
             width: 210mm;
             min-height: 297mm;
-            padding: 8mm;
+            padding: 20mm;
             margin: 0 auto;
             background: white;
             position: relative;
+            page-break-after: always;
         }
         
-        /* Cover Page Styles */
-        .cover-page {
-            text-align: center;
-            min-height: 85%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(135deg, #f8f9ff 0%, #e6f3ff 100%);
-            border-radius: 12px;
-            padding: 40px;
-            margin-bottom: 20px;
+        .page:last-child {
+            page-break-after: auto;
         }
         
-        .cover-archetype {
-            font-size: 32px;
-            font-weight: 600;
-            color: #fd79a8;
-            margin-bottom: 16px;
-        }
-        
-        .cover-tagline {
-            font-size: 18px;
-            font-style: italic;
+        h1, h2, h3 {
             color: #6c5ce7;
-            margin-bottom: 40px;
-            opacity: 0.9;
-        }
-        
-        .cover-customer {
-            font-size: 18px;
-            color: #4a5568;
-            margin-top: 40px;
-        }
-        
-        .cover-date {
-            font-size: 14px;
-            color: #718096;
             margin-top: 20px;
-        }
-        
-        /* Content Page Styles */
-        .content-page {
-            padding: 10px 0;
-        }
-        
-        .page-header {
-            border-bottom: 3px solid #6c5ce7;
-            padding-bottom: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .page-title {
-            font-size: 28px;
-            font-weight: 700;
-            color: #6c5ce7;
-            margin-bottom: 5px;
-        }
-        
-        .page-subtitle {
-            font-size: 16px;
-            color: #718096;
-        }
-        
-        .section {
-            margin-bottom: 20px;
-        }
-        
-        .section-title {
-            font-size: 20px;
-            font-weight: 600;
-            color: #2d3748;
             margin-bottom: 10px;
-            padding-left: 16px;
-            border-left: 4px solid #6c5ce7;
         }
         
-        .section-content {
-            font-size: 14px;
-            line-height: 1.6;
-            color: #4a5568;
+        p {
             margin-bottom: 10px;
         }
         
         .highlight-box {
-            background: linear-gradient(135deg, #f8f9ff 0%, #e6f3ff 100%);
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
+            background: #f0f4ff;
+            border: 1px solid #d0d8ff;
+            border-radius: 5px;
             padding: 15px;
             margin: 15px 0;
             border-left: 4px solid #6c5ce7;
         }
         
-        .highlight-title {
-            font-weight: 600;
-            color: #6c5ce7;
-            margin-bottom: 5px;
-        }
-        
-        .keywords-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
+        .couples-cta {
+            background: #f0e6ff;
+            border: 1px solid #d6bcfa;
+            border-radius: 5px;
+            padding: 15px;
             margin: 15px 0;
-        }
-        
-        .keyword-item {
-            background: #f7fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 6px;
-            padding: 10px;
-            text-align: center;
-            font-weight: 500;
-            color: #4a5568;
+            border-left: 4px solid #805ad5;
         }
         
         .compatibility-section {
             background: #f0fff4;
             border: 1px solid #c6f6d5;
-            border-radius: 8px;
+            border-radius: 5px;
             padding: 15px;
             margin: 15px 0;
-        }
-        
-        .compatibility-title {
-            color: #2f855a;
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
-        
-        .compatibility-list {
-            list-style: none;
-            padding: 0;
-        }
-        
-        .compatibility-item {
-            background: white;
-            border: 1px solid #c6f6d5;
-            border-radius: 4px;
-            padding: 6px 10px;
-            margin: 3px 0;
-            color: #2f855a;
-            font-weight: 500;
-        }
-        
-        .bullet-list {
-            list-style: none;
-            padding: 0;
-            margin: 12px 0;
-        }
-        
-        .bullet-item {
-            position: relative;
-            padding-left: 20px;
-            margin-bottom: 6px;
-            color: #4a5568;
-        }
-        
-        .bullet-item::before {
-            content: "•";
-            color: #6c5ce7;
-            font-weight: bold;
-            position: absolute;
-            left: 0;
         }
         
         .conversation-starters {
             background: #fffaf0;
             border: 1px solid #fed7aa;
-            border-radius: 8px;
+            border-radius: 5px;
             padding: 15px;
             margin: 15px 0;
         }
         
-        .conversation-title {
-            color: #c05621;
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
-        
-        .conversation-item {
-            background: white;
-            border: 1px solid #fed7aa;
-            border-radius: 4px;
-            padding: 10px;
-            margin: 6px 0;
-            font-style: italic;
-            color: #744210;
-        }
-        
         .footer {
-            position: absolute;
-            bottom: 15mm;
-            left: 15mm;
-            right: 15mm;
             text-align: center;
-            font-size: 11px;
-            color: #a0aec0;
-            border-top: 1px solid #e2e8f0;
-            padding-top: 12px;
+            font-size: 12px;
+            color: #888;
+            margin-top: 30px;
+            padding-top: 10px;
+            border-top: 1px solid #eee;
         }
         
         .page-number {
             position: absolute;
-            bottom: 8mm;
-            right: 15mm;
-            font-size: 11px;
-            color: #a0aec0;
+            bottom: 10mm;
+            right: 10mm;
+            font-size: 12px;
+            color: #888;
         }
         
-        /* Couples CTA styling - ENHANCED */
-        .couples-cta {
-            background: linear-gradient(135deg, #f0e6ff 0%, #e6e6ff 100%);
-            border: 1px solid #d6bcfa;
-            border-radius: 8px;
-            padding: 15px;
-            margin: 15px 0;
-            border-left: 4px solid #805ad5;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        ul {
+            padding-left: 20px;
         }
         
-        .couples-cta-title {
-            font-weight: 600;
-            color: #553c9a;
-            margin-bottom: 8px;
-            font-size: 16px;
+        li {
+            margin-bottom: 5px;
         }
         
-        .couples-cta-text {
-            color: #553c9a;
-            line-height: 1.4;
-            font-size: 13px;
-        }
-        
-        /* Print Styles */
         @media print {
-            html, body {
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-                width: 210mm !important;
-                height: 297mm !important;
-                margin: 0 !important;
-                padding: 0 !important;
+            body {
+                width: 210mm;
+                height: 297mm;
             }
             
             .page {
                 margin: 0;
-                box-shadow: none;
+                border: initial;
+                border-radius: initial;
+                width: initial;
+                min-height: initial;
+                box-shadow: initial;
+                background: initial;
                 page-break-after: always;
-            }
-            
-            .page:last-child {
-                page-break-after: auto;
             }
         }
     </style>
 </head>
 <body>
     <!-- Cover Page -->
-    <div class="page" style="page-break-after: always;">
-        <div class="cover-page">
-            <h2 class="cover-archetype">${archetype.name}: The Love Blueprint</h2>
-            <p class="cover-tagline">"Co-authoring your love story with clarity and heart."</p>
-            ${customerName ? `<p class="cover-customer">Prepared for ${customerName}</p>` : ''}
-            <p class="cover-date">${currentDate}</p>
-        </div>
+    <div class="page">
+        <h1 style="font-size: 28px; text-align: center; margin-top: 100px;">${archetype.name}: The Love Blueprint</h1>
+        <p style="text-align: center; font-style: italic; margin-top: 20px;">"Co-authoring your love story with clarity and heart."</p>
+        ${customerName ? `<p style="text-align: center; margin-top: 50px;">Prepared for ${customerName}</p>` : ''}
+        <p style="text-align: center; margin-top: 20px;">${currentDate}</p>
         <div class="footer">Generated by Affinity AI - Your guide to deeper connections</div>
         <div class="page-number">Cover</div>
     </div>
 
     <!-- Page 1: Archetype Overview -->
-    <div class="page" style="page-break-after: always;">
-        <div class="content-page">
-            <header class="page-header">
-                <h1 class="page-title">Your Archetype: ${archetype.name}</h1>
-                <p class="page-subtitle">Understanding Your Romantic Nature</p>
-            </header>
+    <div class="page">
+        <h1>Your Archetype: ${archetype.name}</h1>
+        <h2>Understanding Your Romantic Nature</h2>
 
-            <div class="section">
-                <h2 class="section-title">About Your Archetype</h2>
-                <p class="section-content">${archetype.description}</p>
-                <p class="section-content">${getRandomPhrase()}. This creates a unique dynamic in your relationships that others find both refreshing and meaningful.</p>
-                <div class="highlight-box">
-                    <div class="highlight-title">Core Insight</div>
-                    <p>You don't just experience love—you create meaningful connections that become the foundation of your personal story and identity.</p>
-                </div>
-            </div>
-
-            <div class="section">
-                <h2 class="section-title">Your Core Characteristics</h2>
-                <div class="keywords-grid">
-                    ${archetype.keywords.map(keyword => `
-                        <div class="keyword-item">
-                            ${keyword.text} ${keyword.emoji}
-                        </div>
-                    `).join('')}
-                </div>
-            </div>
-
-            <div class="section">
-                <h2 class="section-title">Compatibility Overview</h2>
-                <div class="compatibility-section">
-                    <div class="compatibility-title">You tend to connect well with:</div>
-                    <ul class="compatibility-list">
-                        ${archetype.compatibleWith.map(match => `<li class="compatibility-item">${match}</li>`).join('')}
-                    </ul>
-                    <p style="margin-top: 10px; color: #2f855a; font-size: 13px;">These archetypes complement your ${archetype.name} nature by providing balance to your approach while appreciating your unique perspective on love and relationships.</p>
-                </div>
-            </div>
+        <h3>About Your Archetype</h3>
+        <p>${archetype.description}</p>
+        <p>${getRandomPhrase()}. This creates a unique dynamic in your relationships that others find both refreshing and meaningful.</p>
+        
+        <div class="highlight-box">
+            <h3>Core Insight</h3>
+            <p>You don't just experience love—you create meaningful connections that become the foundation of your personal story and identity.</p>
         </div>
+
+        <h3>Your Core Characteristics</h3>
+        <ul>
+            ${archetype.keywords.map(keyword => `<li>${keyword.text} ${keyword.emoji}</li>`).join('')}
+        </ul>
+
+        <h3>Compatibility Overview</h3>
+        <div class="compatibility-section">
+            <h3>You tend to connect well with:</h3>
+            <ul>
+                ${archetype.compatibleWith.map(match => `<li>${match}</li>`).join('')}
+            </ul>
+            <p>These archetypes complement your ${archetype.name} nature by providing balance to your approach while appreciating your unique perspective on love and relationships.</p>
+        </div>
+        
         <div class="footer">Generated by Affinity AI - Your guide to deeper connections</div>
         <div class="page-number">Page 1</div>
     </div>
 
     <!-- Page 2: Communication Style -->
-    <div class="page" style="page-break-after: always;">
-        <div class="content-page">
-            <header class="page-header">
-                <h1 class="page-title">Your Communication Style</h1>
-                <p class="page-subtitle">How You Express and Receive Love</p>
-            </header>
+    <div class="page">
+        <h1>Your Communication Style</h1>
+        <h2>How You Express and Receive Love</h2>
 
-            <div class="section">
-                <h2 class="section-title">Communication Strengths</h2>
-                <p class="section-content">As a ${archetype.name}, your communication is rich with emotion and meaning. You excel at creating emotional safety and expressing complex feelings.</p>
-                <p class="section-content">With your ${style.tone} communication style, you bring unique qualities to your conversations that create deeper understanding.</p>
-                <ul class="bullet-list">
-                    <li class="bullet-item">Expressing emotions with poetic clarity and authenticity</li>
-                    <li class="bullet-item">Active listening with genuine empathy and understanding</li>
-                    <li class="bullet-item">Creating safe spaces for vulnerable conversations</li>
-                    <li class="bullet-item">Reading between the lines and understanding emotional subtext</li>
-                    <li class="bullet-item">Sharing personal stories that deepen intimacy</li>
-                </ul>
-            </div>
+        <h3>Communication Strengths</h3>
+        <p>As a ${archetype.name}, your communication is rich with emotion and meaning. You excel at creating emotional safety and expressing complex feelings.</p>
+        <p>With your ${style.tone} communication style, you bring unique qualities to your conversations that create deeper understanding.</p>
+        <ul>
+            <li>Expressing emotions with poetic clarity and authenticity</li>
+            <li>Active listening with genuine empathy and understanding</li>
+            <li>Creating safe spaces for vulnerable conversations</li>
+            <li>Reading between the lines and understanding emotional subtext</li>
+            <li>Sharing personal stories that deepen intimacy</li>
+        </ul>
 
-            <div class="section">
-                <h2 class="section-title">Areas for Growth</h2>
-                <ul class="bullet-list">
-                    <li class="bullet-item">Being direct about practical needs and everyday concerns</li>
-                    <li class="bullet-item">Discussing mundane topics without losing interest or engagement</li>
-                    <li class="bullet-item">Addressing conflicts before they become emotionally overwhelming</li>
-                    <li class="bullet-item">Balancing emotional expression with logical problem-solving</li>
-                </ul>
-            </div>
+        <h3>Areas for Growth</h3>
+        <ul>
+            <li>Being direct about practical needs and everyday concerns</li>
+            <li>Discussing mundane topics without losing interest or engagement</li>
+            <li>Addressing conflicts before they become emotionally overwhelming</li>
+            <li>Balancing emotional expression with logical problem-solving</li>
+        </ul>
 
-            <div class="section">
-                <h2 class="section-title">Conversation Starters</h2>
-                <div class="conversation-starters">
-                    <div class="conversation-title">Questions designed for your ${archetype.name} nature:</div>
-                    <div class="conversation-item">"What's a moment from your childhood that still influences how you love?"</div>
-                    <div class="conversation-item">"If our relationship were a book, what would this chapter be about?"</div>
-                    <div class="conversation-item">"What's something beautiful you noticed about us this week?"</div>
-                    <div class="conversation-item">"How do you imagine we'll look back on this time in our lives?"</div>
-                    <div class="conversation-item">"What's a dream you have for us that you haven't shared yet?"</div>
-                </div>
-                <p class="section-content">These questions align with your ${style.tone} nature and will help you create the kind of meaningful conversations you naturally value.</p>
-            </div>
-            
-            <!-- Couples Mode CTA - ADDED TO PAGE 2 -->
-            <div class="couples-cta" style="margin-top: 20px;">
-                <h3 class="couples-cta-title">Want to compare this with your partner's archetype?</h3>
-                <p class="couples-cta-text">
-                    Try Couples Mode to discover how your archetypes interact and get personalized insights for your relationship. Visit <strong>affinityai.me/couples</strong> to get started.
-                </p>
-            </div>
+        <h3>Conversation Starters</h3>
+        <div class="conversation-starters">
+            <h3>Questions designed for your ${archetype.name} nature:</h3>
+            <p style="font-style: italic;">"What's a moment from your childhood that still influences how you love?"</p>
+            <p style="font-style: italic;">"If our relationship were a book, what would this chapter be about?"</p>
+            <p style="font-style: italic;">"What's something beautiful you noticed about us this week?"</p>
+            <p style="font-style: italic;">"How do you imagine we'll look back on this time in our lives?"</p>
+            <p style="font-style: italic;">"What's a dream you have for us that you haven't shared yet?"</p>
         </div>
+        <p>These questions align with your ${style.tone} nature and will help you create the kind of meaningful conversations you naturally value.</p>
+        
+        <!-- Couples Mode CTA -->
+        <div class="couples-cta">
+            <h3>Want to compare this with your partner's archetype?</h3>
+            <p>Try Couples Mode to discover how your archetypes interact and get personalized insights for your relationship. Visit <strong>affinityai.me/couples</strong> to get started.</p>
+        </div>
+        
         <div class="footer">Generated by Affinity AI - Your guide to deeper connections</div>
         <div class="page-number">Page 2</div>
     </div>
 
     <!-- Page 3: Relationship Dynamics -->
-    <div class="page" style="page-break-after: always;">
-        <div class="content-page">
-            <header class="page-header">
-                <h1 class="page-title">Your Relationship Dynamics</h1>
-                <p class="page-subtitle">Creating Lasting, Meaningful Connections</p>
-            </header>
+    <div class="page">
+        <h1>Your Relationship Dynamics</h1>
+        <h2>Creating Lasting, Meaningful Connections</h2>
 
-            <div class="section">
-                <h2 class="section-title">Emotional Intimacy (Your Superpower)</h2>
-                <p class="section-content">You excel at creating deep emotional bonds. Your ideal relationship includes regular heart-to-heart conversations, shared vulnerability, and emotional attunement with your partner.</p>
-                <p class="section-content">${getRandomPhrase()}. This creates a foundation for the kind of meaningful connection you seek.</p>
-                <ul class="bullet-list">
-                    <li class="bullet-item">Daily check-ins about feelings and meaningful experiences</li>
-                    <li class="bullet-item">Shared rituals that create meaning (morning coffee talks, evening walks)</li>
-                    <li class="bullet-item">Celebrating emotional milestones and relationship anniversaries</li>
-                    <li class="bullet-item">Creating space for both partners to express vulnerability safely</li>
-                </ul>
-            </div>
+        <h3>Emotional Intimacy (Your Superpower)</h3>
+        <p>You excel at creating deep emotional bonds. Your ideal relationship includes regular heart-to-heart conversations, shared vulnerability, and emotional attunement with your partner.</p>
+        <p>${getRandomPhrase()}. This creates a foundation for the kind of meaningful connection you seek.</p>
+        <ul>
+            <li>Daily check-ins about feelings and meaningful experiences</li>
+            <li>Shared rituals that create meaning (morning coffee talks, evening walks)</li>
+            <li>Celebrating emotional milestones and relationship anniversaries</li>
+            <li>Creating space for both partners to express vulnerability safely</li>
+        </ul>
 
-            <div class="section">
-                <h2 class="section-title">Conflict Resolution Style</h2>
-                <p class="section-content">You prefer to address conflicts through emotional processing rather than purely logical problem-solving. While this creates deep understanding, it's important to balance emotion with practical solutions.</p>
-                
-                <div class="highlight-box">
-                    <div class="highlight-title">Effective Approach</div>
-                    <p>Start with emotional validation and understanding, then move toward practical solutions together. This honors your ${style.tone} nature while ensuring issues get resolved effectively.</p>
-                </div>
-            </div>
-
-            <div class="section">
-                <h2 class="section-title">Love Languages That Resonate</h2>
-                <ul class="bullet-list">
-                    <li class="bullet-item"><strong>Words of Affirmation:</strong> Poetic expressions of love and deep appreciation</li>
-                    <li class="bullet-item"><strong>Quality Time:</strong> Meaningful conversations and shared emotional experiences</li>
-                    <li class="bullet-item"><strong>Physical Touch:</strong> Affectionate gestures that convey emotional connection</li>
-                    <li class="bullet-item"><strong>Acts of Service:</strong> Thoughtful gestures that show understanding of your inner world</li>
-                   <li class="bullet-item"><strong>Receiving Gifts:</strong> Meaningful tokens that symbolize your unique connection</li>
-                </ul>
-            </div>
-            
-            <!-- Couples Mode CTA - ENHANCED -->
-            <div class="couples-cta" style="margin-top: 20px; background: linear-gradient(135deg, #f0e6ff 0%, #e6e6ff 100%); border: 1px solid #d6bcfa; border-radius: 8px; padding: 15px; border-left: 4px solid #805ad5; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-                <h3 style="font-weight: 600; color: #553c9a; margin-bottom: 8px; font-size: 16px;">Want to compare this with your partner's archetype?</h3>
-                <p style="color: #553c9a; line-height: 1.4; font-size: 13px;">
-                    Try Couples Mode to discover how your archetypes interact and get personalized insights for your relationship. Visit <strong>affinityai.me/couples</strong> to get started.
-                </p>
-            </div>
+        <h3>Conflict Resolution Style</h3>
+        <p>You prefer to address conflicts through emotional processing rather than purely logical problem-solving. While this creates deep understanding, it's important to balance emotion with practical solutions.</p>
+        
+        <div class="highlight-box">
+            <h3>Effective Approach</h3>
+            <p>Start with emotional validation and understanding, then move toward practical solutions together. This honors your ${style.tone} nature while ensuring issues get resolved effectively.</p>
         </div>
+
+        <h3>Love Languages That Resonate</h3>
+        <ul>
+            <li><strong>Words of Affirmation:</strong> Poetic expressions of love and deep appreciation</li>
+            <li><strong>Quality Time:</strong> Meaningful conversations and shared emotional experiences</li>
+            <li><strong>Physical Touch:</strong> Affectionate gestures that convey emotional connection</li>
+            <li><strong>Acts of Service:</strong> Thoughtful gestures that show understanding of your inner world</li>
+            <li><strong>Receiving Gifts:</strong> Meaningful tokens that symbolize your unique connection</li>
+        </ul>
+        
+        <!-- Couples Mode CTA -->
+        <div class="couples-cta">
+            <h3>Want to compare this with your partner's archetype?</h3>
+            <p>Try Couples Mode to discover how your archetypes interact and get personalized insights for your relationship. Visit <strong>affinityai.me/couples</strong> to get started.</p>
+        </div>
+        
         <div class="footer">Generated by Affinity AI - Your guide to deeper connections</div>
         <div class="page-number">Page 3</div>
     </div>
 
     <!-- Page 4: Personal Growth -->
-    <div class="page" style="page-break-after: always;">
-        <div class="content-page">
-            <header class="page-header">
-                <h1 class="page-title">Personal Growth Opportunities</h1>
-                <p class="page-subtitle">Enhancing Your Relationship Success</p>
-            </header>
+    <div class="page">
+        <h1>Personal Growth Opportunities</h1>
+        <h2>Enhancing Your Relationship Success</h2>
 
-            <div class="section">
-                <h2 class="section-title">Balancing Idealism with Reality</h2>
-                <p class="section-content">Your romantic idealism is beautiful, but learning to appreciate imperfect moments can deepen your relationships and increase satisfaction.</p>
-                <p class="section-content">${style.advice}</p>
-                <ul class="bullet-list">
-                    <li class="bullet-item">Practice gratitude for ordinary moments with your partner</li>
-                    <li class="bullet-item">Find beauty in practical acts of love (doing dishes, paying bills together)</li>
-                    <li class="bullet-item">Celebrate small gestures, not just grand romantic moments</li>
-                    <li class="bullet-item">Learn to see conflict as part of your love story, not a threat to it</li>
-                </ul>
-            </div>
+        <h3>Balancing Idealism with Reality</h3>
+        <p>Your romantic idealism is beautiful, but learning to appreciate imperfect moments can deepen your relationships and increase satisfaction.</p>
+        <p>${style.advice}</p>
+        <ul>
+            <li>Practice gratitude for ordinary moments with your partner</li>
+            <li>Find beauty in practical acts of love (doing dishes, paying bills together)</li>
+            <li>Celebrate small gestures, not just grand romantic moments</li>
+            <li>Learn to see conflict as part of your love story, not a threat to it</li>
+        </ul>
 
-            <div class="section">
-                <h2 class="section-title">Developing Emotional Resilience</h2>
-                <p class="section-content">Your deep feeling nature is a gift, but building resilience helps you navigate relationship challenges without losing your sensitivity.</p>
-                
-                <div class="highlight-box">
-                    <div class="highlight-title">Resilience Practice</div>
-                    <p>When facing relationship stress, ask yourself: "How can this challenge become part of our growth story?" This reframes difficulties as opportunities for deeper connection.</p>
-                </div>
-            </div>
-
-            <div class="section">
-                <h2 class="section-title">Setting Healthy Boundaries</h2>
-                <p class="section-content">Your empathetic nature can sometimes lead to over-giving or losing yourself in relationships. Healthy boundaries actually enhance intimacy by ensuring both partners remain whole individuals.</p>
-                <p class="section-content">Finding this balance is especially important for someone with your ${style.tone} approach to relationships.</p>
-                <ul class="bullet-list">
-                    <li class="bullet-item">Maintain individual interests and friendships outside the relationship</li>
-                    <li class="bullet-item">Communicate your needs directly rather than hoping your partner will intuit them</li>
-                    <li class="bullet-item">Take regular time for emotional self-care and personal processing</li>
-                    <li class="bullet-item">Remember that healthy relationships include both togetherness and autonomy</li>
-                </ul>
-            </div>
+        <h3>Developing Emotional Resilience</h3>
+        <p>Your deep feeling nature is a gift, but building resilience helps you navigate relationship challenges without losing your sensitivity.</p>
+        
+        <div class="highlight-box">
+            <h3>Resilience Practice</h3>
+            <p>When facing relationship stress, ask yourself: "How can this challenge become part of our growth story?" This reframes difficulties as opportunities for deeper connection.</p>
         </div>
+
+        <h3>Setting Healthy Boundaries</h3>
+        <p>Your empathetic nature can sometimes lead to over-giving or losing yourself in relationships. Healthy boundaries actually enhance intimacy by ensuring both partners remain whole individuals.</p>
+        <p>Finding this balance is especially important for someone with your ${style.tone} approach to relationships.</p>
+        <ul>
+            <li>Maintain individual interests and friendships outside the relationship</li>
+            <li>Communicate your needs directly rather than hoping your partner will intuit them</li>
+            <li>Take regular time for emotional self-care and personal processing</li>
+            <li>Remember that healthy relationships include both togetherness and autonomy</li>
+        </ul>
+        
         <div class="footer">Generated by Affinity AI - Your guide to deeper connections</div>
         <div class="page-number">Page 4</div>
     </div>
 
     <!-- Page 5: Action Steps -->
-    <div class="page" style="page-break-after: always;">
-        <div class="content-page">
-            <header class="page-header">
-                <h1 class="page-title">Your Next Steps</h1>
-                <p class="page-subtitle">Putting Insights Into Action</p>
-            </header>
+    <div class="page">
+        <h1>Your Next Steps</h1>
+        <h2>Putting Insights Into Action</h2>
 
-            <div class="section">
-                <h2 class="section-title">This Week: Immediate Actions</h2>
-                <ul class="bullet-list">
-                    <li class="bullet-item">Share one meaningful story from your past with someone you care about</li>
-                    <li class="bullet-item">Practice expressing a practical need directly in your ${style.tone} way</li>
-                    <li class="bullet-item">Notice and appreciate one "ordinary" moment of connection</li>
-                    <li class="bullet-item">Ask someone you're dating or in a relationship with one of the conversation starters from this report</li>
-                </ul>
-            </div>
+        <h3>This Week: Immediate Actions</h3>
+        <ul>
+            <li>Share one meaningful story from your past with someone you care about</li>
+            <li>Practice expressing a practical need directly in your ${style.tone} way</li>
+            <li>Notice and appreciate one "ordinary" moment of connection</li>
+            <li>Ask someone you're dating or in a relationship with one of the conversation starters from this report</li>
+        </ul>
 
-            <div class="section">
-                <h2 class="section-title">This Month: Building New Patterns</h2>
-                <ul class="bullet-list">
-                    <li class="bullet-item">Establish a weekly ritual of connection with your partner (or plan for future relationships)</li>
-                    <li class="bullet-item">Practice setting one small boundary while maintaining emotional openness</li>
-                    <li class="bullet-item">Reflect on your relationship patterns and identify one area for growth</li>
-                    <li class="bullet-item">Plan a date or activity that aligns with your authentic interests and values</li>
-                </ul>
-            </div>
+        <h3>This Month: Building New Patterns</h3>
+        <ul>
+            <li>Establish a weekly ritual of connection with your partner (or plan for future relationships)</li>
+            <li>Practice setting one small boundary while maintaining emotional openness</li>
+            <li>Reflect on your relationship patterns and identify one area for growth</li>
+            <li>Plan a date or activity that aligns with your authentic interests and values</li>
+        </ul>
 
-            <div class="section">
-                <h2 class="section-title">Ongoing: Long-term Growth</h2>
-                <ul class="bullet-list">
-                    <li class="bullet-item">Develop a consistent practice of emotional self-care and processing</li>
-                    <li class="bullet-item">Learn to appreciate expressions of love that might differ from your ${style.tone} preferences</li>
-                    <li class="bullet-item">Build resilience by reframing challenges as part of your growth story</li>
-                    <li class="bullet-item">Continue exploring your compatibility with different personality types</li>
-                </ul>
-            </div>
+        <h3>Ongoing: Long-term Growth</h3>
+        <ul>
+            <li>Develop a consistent practice of emotional self-care and processing</li>
+            <li>Learn to appreciate expressions of love that might differ from your ${style.tone} preferences</li>
+            <li>Build resilience by reframing challenges as part of your growth story</li>
+            <li>Continue exploring your compatibility with different personality types</li>
+        </ul>
 
-            <div class="highlight-box" style="margin-top: 20px;">
-                <div class="highlight-title" style="text-align: center; font-size: 16px;">Remember</div>
-                <p style="text-align: center; font-size: 14px; margin-top: 8px;">Your ${style.tone} approach to relationships is a gift. The right person will treasure these qualities, not ask you to diminish them.</p>
-            </div>
-
-            <!-- Couples Mode CTA - ENHANCED -->
-            <div class="couples-cta" style="margin-top: 20px; background: linear-gradient(135deg, #f0e6ff 0%, #e6e6ff 100%); border: 1px solid #d6bcfa; border-radius: 8px; padding: 15px; border-left: 4px solid #805ad5; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-                <h3 style="font-weight: 600; color: #553c9a; margin-bottom: 8px; font-size: 16px;">Want to compare this with your partner's archetype?</h3>
-                <p style="color: #553c9a; line-height: 1.4; font-size: 13px;">
-                    Try Couples Mode to discover how your archetypes interact and get personalized insights for your relationship. Visit <strong>affinityai.me/couples</strong> to get started.
-                </p>
-            </div>
-
-            <p style="text-align: center; margin-top: 15px; font-size: 14px; color: #6c5ce7; font-weight: 500;">
-                Thank you for taking this journey of self-discovery. May your love story be everything you dream it can be.
-            </p>
+        <div class="highlight-box">
+            <h3 style="text-align: center;">Remember</h3>
+            <p style="text-align: center;">Your ${style.tone} approach to relationships is a gift. The right person will treasure these qualities, not ask you to diminish them.</p>
         </div>
+
+        <!-- Couples Mode CTA -->
+        <div class="couples-cta">
+            <h3>Want to compare this with your partner's archetype?</h3>
+            <p>Try Couples Mode to discover how your archetypes interact and get personalized insights for your relationship. Visit <strong>affinityai.me/couples</strong> to get started.</p>
+        </div>
+
+        <p style="text-align: center; margin-top: 20px; color: #6c5ce7; font-weight: bold;">
+            Thank you for taking this journey of self-discovery. May your love story be everything you dream it can be.
+        </p>
+        
         <div class="footer">Generated by Affinity AI - Your guide to deeper connections</div>
         <div class="page-number">Page 5</div>
     </div>
     
-    <!-- Page 6: Compatibility Radar - ENHANCED -->
-    <div class="page" style="page-break-after: always;">
-        <div class="content-page">
-            <header class="page-header">
-                <h1 class="page-title">Your Compatibility Radar</h1>
-                <p class="page-subtitle">Understanding How You Connect With Others</p>
-            </header>
+    <!-- Page 6: Compatibility Radar -->
+    <div class="page">
+        <h1>Your Compatibility Radar</h1>
+        <h2>Understanding How You Connect With Others</h2>
 
-            <div class="section">
-                <h2 class="section-title">Visualizing Your Compatibility</h2>
-                <p class="section-content">
-                    This radar chart shows your natural compatibility with each romantic archetype. The further the point extends outward, the stronger the compatibility.
-                </p>
-                
-                <!-- Compatibility Radar Visualization - ENHANCED WITH INLINE SVG -->
-                <div style="text-align: center; margin: 20px 0; background-color: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0;">
-                    <img src="data:image/svg+xml;charset=utf-8,${encodeURIComponent(`<svg width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
-                        <!-- Background circles -->
-                        <circle cx="150" cy="150" r="150" fill="none" stroke="#e2e8f0" stroke-width="1" />
-                        <circle cx="150" cy="150" r="112.5" fill="none" stroke="#e2e8f0" stroke-width="1" />
-                        <circle cx="150" cy="150" r="75" fill="none" stroke="#e2e8f0" stroke-width="1" />
-                        <circle cx="150" cy="150" r="37.5" fill="none" stroke="#e2e8f0" stroke-width="1" />
-                        
-                        <!-- Axis lines -->
-                        <line x1="150" y1="0" x2="150" y2="300" stroke="#e2e8f0" stroke-width="1" />
-                        <line x1="0" y1="150" x2="300" y2="150" stroke="#e2e8f0" stroke-width="1" />
-                        <line x1="44" y1="44" x2="256" y2="256" stroke="#e2e8f0" stroke-width="1" />
-                        <line x1="256" y1="44" x2="44" y2="256" stroke="#e2e8f0" stroke-width="1" />
-                        
-                        <!-- Data polygon -->
-                        <polygon points="150,30 270,150 150,240 60,150" fill="rgba(108, 92, 231, 0.1)" stroke="#6c5ce7" stroke-width="2" />
-                        
-                        <!-- Center point -->
-                        <circle cx="150" cy="150" r="3" fill="#6c5ce7" />
-                        
-                        <!-- Labels -->
-                        <text x="150" y="15" text-anchor="middle" font-size="12" fill="#4a5568">Narrative Idealist</text>
-                        <text x="285" y="155" text-anchor="start" font-size="12" fill="#4a5568">Vibrant Explorer</text>
-                        <text x="150" y="295" text-anchor="middle" font-size="12" fill="#4a5568">Steady Guardian</text>
-                        <text x="15" y="155" text-anchor="end" font-size="12" fill="#4a5568">Compassionate Nurturer</text>
-                        <text x="75" y="75" text-anchor="middle" font-size="12" fill="#4a5568">Mindful Architect</text>
-                    </svg>`)}" alt="Compatibility Radar Chart" style="max-width: 300px; height: auto;" />
-                    <p style="font-size: 12px; color: #718096; margin-top: 10px;">Your Compatibility Radar: Showing relative compatibility with different archetypes</p>
+        <h3>Visualizing Your Compatibility</h3>
+        <p>This radar chart shows your natural compatibility with each romantic archetype. The further the point extends outward, the stronger the compatibility.</p>
+        
+        <!-- Simple Compatibility Radar Visualization -->
+        <div style="text-align: center; margin: 20px 0; padding: 15px; border: 1px solid #eee; border-radius: 5px;">
+            <div style="width: 300px; height: 300px; margin: 0 auto; position: relative; border: 1px solid #e2e8f0; border-radius: 50%;">
+                <!-- Simplified radar visualization using HTML/CSS -->
+                <div style="position: absolute; top: 0; left: 50%; transform: translateX(-50%); text-align: center;">
+                    <p style="margin: 0; padding: 5px; background: white;">Narrative Idealist</p>
+                </div>
+                <div style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); text-align: center;">
+                    <p style="margin: 0; padding: 5px; background: white;">Steady Guardian</p>
+                </div>
+                <div style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); text-align: center;">
+                    <p style="margin: 0; padding: 5px; background: white;">Compassionate Nurturer</p>
+                </div>
+                <div style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); text-align: center;">
+                    <p style="margin: 0; padding: 5px; background: white;">Vibrant Explorer</p>
+                </div>
+                <div style="position: absolute; top: 25%; left: 25%; transform: translate(-50%, -50%); text-align: center;">
+                    <p style="margin: 0; padding: 5px; background: white;">Mindful Architect</p>
                 </div>
                 
-                <h2 class="section-title">Your Compatibility Scores</h2>
-                <ul class="bullet-list">
-                    <li class="bullet-item"><strong>Vibrant Explorer:</strong> 85% - Your depth pairs well with their spontaneity</li>
-                    <li class="bullet-item"><strong>Steady Guardian:</strong> 75% - They provide stability for your emotional exploration</li>
-                    <li class="bullet-item"><strong>Mindful Architect:</strong> 65% - You both value meaning, but approach it differently</li>
-                    <li class="bullet-item"><strong>Compassionate Nurturer:</strong> 70% - You connect through emotional understanding</li>
-                </ul>
-                
-                <div class="highlight-box">
-                    <div class="highlight-title">Compatibility Insight</div>
-                    <p>Remember that compatibility is just one factor in successful relationships. Growth, communication, and shared values are equally important. The right relationship often involves complementary differences, not just similarities.</p>
-                </div>
+                <!-- Compatibility polygon -->
+                <div style="position: absolute; top: 50%; left: 50%; width: 200px; height: 200px; transform: translate(-50%, -50%); clip-path: polygon(50% 10%, 90% 50%, 50% 80%, 20% 50%); background-color: rgba(108, 92, 231, 0.2); border: 2px solid #6c5ce7;"></div>
             </div>
-
-            <!-- Couples Mode CTA - ENHANCED -->
-            <div class="couples-cta" style="margin-top: 20px; background: linear-gradient(135deg, #f0e6ff 0%, #e6e6ff 100%); border: 1px solid #d6bcfa; border-radius: 8px; padding: 15px; border-left: 4px solid #805ad5; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-                <h3 style="font-weight: 600; color: #553c9a; margin-bottom: 8px; font-size: 16px;">Want to compare this with your partner's archetype?</h3>
-                <p style="color: #553c9a; line-height: 1.4; font-size: 13px;">
-                    Try Couples Mode to discover how your archetypes interact and get personalized insights for your relationship. Visit <strong>affinityai.me/couples</strong> to get started.
-                </p>
-            </div>
+            <p style="font-size: 12px; color: #888; margin-top: 10px;">Your Compatibility Radar: Showing relative compatibility with different archetypes</p>
         </div>
+        
+        <h3>Your Compatibility Scores</h3>
+        <ul>
+            <li><strong>Vibrant Explorer:</strong> 85% - Your depth pairs well with their spontaneity</li>
+            <li><strong>Steady Guardian:</strong> 75% - They provide stability for your emotional exploration</li>
+            <li><strong>Mindful Architect:</strong> 65% - You both value meaning, but approach it differently</li>
+            <li><strong>Compassionate Nurturer:</strong> 70% - You connect through emotional understanding</li>
+        </ul>
+        
+        <div class="highlight-box">
+            <h3>Compatibility Insight</h3>
+            <p>Remember that compatibility is just one factor in successful relationships. Growth, communication, and shared values are equally important. The right relationship often involves complementary differences, not just similarities.</p>
+        </div>
+
+        <!-- Couples Mode CTA -->
+        <div class="couples-cta">
+            <h3>Want to compare this with your partner's archetype?</h3>
+            <p>Try Couples Mode to discover how your archetypes interact and get personalized insights for your relationship. Visit <strong>affinityai.me/couples</strong> to get started.</p>
+        </div>
+        
         <div class="footer">Generated by Affinity AI - Your guide to deeper connections</div>
         <div class="page-number">Page 6</div>
     </div>
 
     <!-- Page 7: Physical Intimacy & Attraction -->
-    <div class="page" style="page-break-after: always;">
-        <div class="content-page">
-            <header class="page-header">
-                <h1 class="page-title">Physical Intimacy & Attraction</h1>
-                <p class="page-subtitle">Understanding Your Approach to Physical Connection</p>
-            </header>
+    <div class="page">
+        <h1>Physical Intimacy & Attraction</h1>
+        <h2>Understanding Your Approach to Physical Connection</h2>
 
-            <div class="section">
-                <h2 class="section-title">Your Physical Connection Style</h2>
-                <p class="section-content">As a ${archetype.name}, your approach to physical intimacy is influenced by your overall relationship style. ${getRandomPhrase()}, and this extends to how you experience physical connection.</p>
-                
-                <div style="background: #fef5f5; border: 1px solid #fed7d7; border-radius: 8px; padding: 15px; margin: 15px 0; border-left: 4px solid #e53e3e;">
-                    <div style="font-weight: 600; color: #c53030; margin-bottom: 6px;">Your Intimacy Language</div>
-                    <p style="color: #742a2a; line-height: 1.5; font-size: 13px;">For you, physical intimacy is most meaningful when it's an extension of emotional connection. You value the story behind each touch and the meaning behind physical expressions of love. While others might separate physical and emotional attraction, for you they're deeply intertwined.</p>
-                </div>
-                
-                <p class="section-content">Your physical intimacy style tends to be:</p>
-                <ul class="bullet-list">
-                    <li class="bullet-item">Emotionally present and fully engaged in the moment</li>
-                    <li class="bullet-item">Focused on the meaning and connection behind physical touch</li>
-                    <li class="bullet-item">Appreciative of sensual experiences that engage all senses</li>
-                    <li class="bullet-item">Drawn to partners who can verbalize their feelings during intimate moments</li>
-                    <li class="bullet-item">Most comfortable when trust and emotional safety are established first</li>
-                </ul>
-            </div>
-
-            <div class="section">
-                <h2 class="section-title">Enhancing Physical Connection</h2>
-                <p class="section-content">To create more fulfilling physical intimacy in your relationships:</p>
-                
-                <ul class="bullet-list">
-                    <li class="bullet-item">Communicate your desire for emotional connection alongside physical intimacy</li>
-                    <li class="bullet-item">Create rituals that help you transition from daily life to intimate moments</li>
-                    <li class="bullet-item">Express appreciation for your partner's physical expressions of love, even simple ones</li>
-                    <li class="bullet-item">Be open about what helps you feel emotionally safe during intimate moments</li>
-                    <li class="bullet-item">Remember that physical connection can be a language of its own, complementing verbal communication</li>
-                </ul>
-                
-                <div class="highlight-box">
-                    <div class="highlight-title">Intimacy Insight</div>
-                    <p>For someone with your ${style.tone} nature, physical intimacy is most fulfilling when it feels like an authentic expression of your emotional connection. Creating the right conditions for this alignment will enhance both physical and emotional satisfaction.</p>
-                </div>
-            </div>
+        <h3>Your Physical Connection Style</h3>
+        <p>As a ${archetype.name}, your approach to physical intimacy is influenced by your overall relationship style. ${getRandomPhrase()}, and this extends to how you experience physical connection.</p>
+        
+        <div style="background: #fef5f5; border: 1px solid #fed7d7; border-radius: 5px; padding: 15px; margin: 15px 0; border-left: 4px solid #e53e3e;">
+            <h3>Your Intimacy Language</h3>
+            <p>For you, physical intimacy is most meaningful when it's an extension of emotional connection. You value the story behind each touch and the meaning behind physical expressions of love. While others might separate physical and emotional attraction, for you they're deeply intertwined.</p>
         </div>
+        
+        <p>Your physical intimacy style tends to be:</p>
+        <ul>
+            <li>Emotionally present and fully engaged in the moment</li>
+            <li>Focused on the meaning and connection behind physical touch</li>
+            <li>Appreciative of sensual experiences that engage all senses</li>
+            <li>Drawn to partners who can verbalize their feelings during intimate moments</li>
+            <li>Most comfortable when trust and emotional safety are established first</li>
+        </ul>
+
+        <h3>Enhancing Physical Connection</h3>
+        <p>To create more fulfilling physical intimacy in your relationships:</p>
+        
+        <ul>
+            <li>Communicate your desire for emotional connection alongside physical intimacy</li>
+            <li>Create rituals that help you transition from daily life to intimate moments</li>
+            <li>Express appreciation for your partner's physical expressions of love, even simple ones</li>
+            <li>Be open about what helps you feel emotionally safe during intimate moments</li>
+            <li>Remember that physical connection can be a language of its own, complementing verbal communication</li>
+        </ul>
+        
+        <div class="highlight-box">
+            <h3>Intimacy Insight</h3>
+            <p>For someone with your ${style.tone} nature, physical intimacy is most fulfilling when it feels like an authentic expression of your emotional connection. Creating the right conditions for this alignment will enhance both physical and emotional satisfaction.</p>
+        </div>
+        
         <div class="footer">Generated by Affinity AI - Your guide to deeper connections</div>
         <div class="page-number">Page 7</div>
     </div>
 
     <!-- Page 8: Relationship Patterns & Cycles -->
     <div class="page">
-        <div class="content-page">
-            <header class="page-header">
-                <h1 class="page-title">Relationship Patterns & Cycles</h1>
-                <p class="page-subtitle">Understanding Your Relationship Journey</p>
-            </header>
+        <h1>Relationship Patterns & Cycles</h1>
+        <h2>Understanding Your Relationship Journey</h2>
 
-            <div class="section">
-                <h2 class="section-title">Your Relationship Cycle</h2>
-                <p class="section-content">As a ${archetype.name}, you tend to move through relationships in a pattern that reflects your ${style.tone} nature. Understanding this cycle can help you navigate relationships more consciously.</p>
-                
-                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 15px 0;">
-                    <div style="background: #ebf8ff; border: 1px solid #bee3f8; border-radius: 8px; padding: 12px;">
-                        <div style="font-weight: 600; color: #2b6cb0; margin-bottom: 6px; font-size: 14px;">Initial Connection</div>
-                        <p style="color: #2c5282; font-size: 12px; line-height: 1.4;">You're drawn to people who show depth, authenticity, and emotional intelligence. You value meaningful early conversations over surface-level small talk.</p>
-                    </div>
-                    
-                    <div style="background: #ebf8ff; border: 1px solid #bee3f8; border-radius: 8px; padding: 12px;">
-                        <div style="font-weight: 600; color: #2b6cb0; margin-bottom: 6px; font-size: 14px;">Building Intimacy</div>
-                        <p style="color: #2c5282; font-size: 12px; line-height: 1.4;">You create closeness through deep conversations, shared experiences, and emotional vulnerability. This phase feels especially rewarding for you.</p>
-                    </div>
-                    
-                    <div style="background: #ebf8ff; border: 1px solid #bee3f8; border-radius: 8px; padding: 12px;">
-                        <div style="font-weight: 600; color: #2b6cb0; margin-bottom: 6px; font-size: 14px;">Challenge Point</div>
-                        <p style="color: #2c5282; font-size: 12px; line-height: 1.4;">You may struggle when the relationship faces practical challenges or when everyday reality doesn't match your ideal vision. This is a growth opportunity.</p>
-                    </div>
-                    
-                    <div style="background: #ebf8ff; border: 1px solid #bee3f8; border-radius: 8px; padding: 12px;">
-                        <div style="font-weight: 600; color: #2b6cb0; margin-bottom: 6px; font-size: 14px;">Deepening or Transition</div>
-                        <p style="color: #2c5282; font-size: 12px; line-height: 1.4;">If you navigate challenges successfully, your relationships reach a new level of authentic connection. If not, you may begin seeking a new connection.</p>
-                    </div>
-                </div>
-                
-                <p class="section-content">Being aware of this pattern can help you make conscious choices at each stage, especially during challenge points where your natural tendencies might create obstacles.</p>
-            </div>
-
-            <div class="section">
-                <h2 class="section-title">Breaking Unhelpful Patterns</h2>
-                <p class="section-content">If you've noticed recurring challenges in your relationships, consider these strategies to create new patterns:</p>
-                
-                <ul class="bullet-list">
-                    <li class="bullet-item">Notice when you're idealizing a new partner and consciously balance this with realistic observations</li>
-                    <li class="bullet-item">When feeling disappointed, ask yourself if your expectations were communicated clearly</li>
-                    <li class="bullet-item">Practice staying engaged during practical discussions even when they feel mundane</li>
-                    <li class="bullet-item">Create a personal ritual for processing relationship emotions before responding</li>
-                    <li class="bullet-item">Identify your typical "exit point" in relationships and commit to working through that stage differently next time</li>
-                </ul>
-                
-                <div class="highlight-box">
-                    <div class="highlight-title">Pattern Breakthrough</div>
-                    <p>The most powerful way to change relationship patterns is to recognize them as they're happening. When you notice yourself following a familiar script, pause and ask, "How could I respond differently this time?"</p>
-                </div>
+        <h3>Your Relationship Cycle</h3>
+        <p>As a ${archetype.name}, you tend to move through relationships in a pattern that reflects your ${style.tone} nature. Understanding this cycle can help you navigate relationships more consciously.</p>
+        
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 15px 0;">
+            <div style="background: #ebf8ff; border: 1px solid #bee3f8; border-radius: 5px; padding: 12px;">
+                <h4 style="margin-top: 0;">Initial Connection</h4>
+                <p style="font-size: 14px;">You're drawn to people who show depth, authenticity, and emotional intelligence. You value meaningful early conversations over surface-level small talk.</p>
             </div>
             
-            <!-- Couples Mode CTA - FINAL REMINDER -->
-            <div class="couples-cta" style="margin-top: 20px; background: linear-gradient(135deg, #f0e6ff 0%, #e6e6ff 100%); border: 1px solid #d6bcfa; border-radius: 8px; padding: 15px; border-left: 4px solid #805ad5; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-                <h3 style="font-weight: 600; color: #553c9a; margin-bottom: 8px; font-size: 16px;">Ready to deepen your relationship insights?</h3>
-                <p style="color: #553c9a; line-height: 1.4; font-size: 13px;">
-                    Visit <strong>affinityai.me/couples</strong> to discover how your archetype interacts with your partner's and receive personalized guidance for your unique relationship dynamic.
-                </p>
+            <div style="background: #ebf8ff; border: 1px solid #bee3f8; border-radius: 5px; padding: 12px;">
+                <h4 style="margin-top: 0;">Building Intimacy</h4>
+                <p style="font-size: 14px;">You create closeness through deep conversations, shared experiences, and emotional vulnerability. This phase feels especially rewarding for you.</p>
+            </div>
+            
+            <div style="background: #ebf8ff; border: 1px solid #bee3f8; border-radius: 5px; padding: 12px;">
+                <h4 style="margin-top: 0;">Challenge Point</h4>
+                <p style="font-size: 14px;">You may struggle when the relationship faces practical challenges or when everyday reality doesn't match your ideal vision. This is a growth opportunity.</p>
+            </div>
+            
+            <div style="background: #ebf8ff; border: 1px solid #bee3f8; border-radius: 5px; padding: 12px;">
+                <h4 style="margin-top: 0;">Deepening or Transition</h4>
+                <p style="font-size: 14px;">If you navigate challenges successfully, your relationships reach a new level of authentic connection. If not, you may begin seeking a new connection.</p>
             </div>
         </div>
+        
+        <p>Being aware of this pattern can help you make conscious choices at each stage, especially during challenge points where your natural tendencies might create obstacles.</p>
+
+        <h3>Breaking Unhelpful Patterns</h3>
+        <p>If you've noticed recurring challenges in your relationships, consider these strategies to create new patterns:</p>
+        
+        <ul>
+            <li>Notice when you're idealizing a new partner and consciously balance this with realistic observations</li>
+            <li>When feeling disappointed, ask yourself if your expectations were communicated clearly</li>
+            <li>Practice staying engaged during practical discussions even when they feel mundane</li>
+            <li>Create a personal ritual for processing relationship emotions before responding</li>
+            <li>Identify your typical "exit point" in relationships and commit to working through that stage differently next time</li>
+        </ul>
+        
+        <div class="highlight-box">
+            <h3>Pattern Breakthrough</h3>
+            <p>The most powerful way to change relationship patterns is to recognize them as they're happening. When you notice yourself following a familiar script, pause and ask, "How could I respond differently this time?"</p>
+        </div>
+        
+        <!-- Couples Mode CTA -->
+        <div class="couples-cta">
+            <h3>Ready to deepen your relationship insights?</h3>
+            <p>Visit <strong>affinityai.me/couples</strong> to discover how your archetype interacts with your partner's and receive personalized guidance for your unique relationship dynamic.</p>
+        </div>
+        
         <div class="footer">Generated by Affinity AI - Your guide to deeper connections</div>
         <div class="page-number">Page 8</div>
     </div>
@@ -954,7 +698,7 @@ export const handler: Handler = async (event) => {
   }
 
   try {
-    console.log('🔄 [PDF GENERATION] Starting beautiful PDF generation...');
+    console.log('🔄 [PDF GENERATION] Starting PDF generation...');
     
     const { archetype, customerName, sessionId } = JSON.parse(event.body || '{}');
 
