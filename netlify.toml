@@ -1,42 +1,18 @@
 [build]
   command = "npm run build"
+  publish = "build"
   functions = "netlify/functions"
-  publish = "dist"
 
-[dev]
-  command = "npm run dev"
-  targetPort = 5174
-  port = 8888
-  publish = "dist"
-  framework = "vite"
-  autoLaunch = true
+[build.environment]
+  NODE_VERSION = "18.18.0"
+  NPM_FLAGS = "--legacy-peer-deps"
 
-[[redirects]]
-  from = "/.netlify/functions/*"
-  status = 200
-  force = true
-
-[[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/:splat"
-  status = 200
-  force = true
+[functions]
+  node_bundler = "esbuild"
+  external_node_modules = ["chrome-aws-lambda", "puppeteer-core"]
 
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
 
-[build.environment]
-  NODE_VERSION = "18.18.0"
-
-# Environment variables should be set in Netlify dashboard
-# Go to Site settings > Build & deploy > Environment variables
-# Add the following variables:
-# - VITE_STRIPE_PUBLISHABLE_KEY
-# - STRIPE_SECRET_KEY  
-# - STRIPE_WEBHOOK_SECRET
-# - OPENAI_API_KEY
-# - VITE_SUPABASE_URL
-# - VITE_SUPABASE_ANON_KEY
-# - SUPABASE_SERVICE_ROLE_KEY
