@@ -555,9 +555,9 @@ const EnhancedLoveBlueprint = ({
               <Text style={styles.compatibilityText}>
                 You naturally connect well with: {archetype.compatibleWith.join(' & ')}
               </Text>
-              <Text style={styles.compatibilityText} style={{marginTop: 4}}>
-                In real-world terms, you'll likely click with people who are spontaneous and adventurous (Vibrant Explorer types) or those who provide stability and reliability (Steady Guardian types). These personalities balance your thoughtful, meaning-focused approach with either exciting new experiences or grounding practicality.
-              </Text>
+                <Text style={{...styles.compatibilityText, marginTop: 4}}>
+                  In real-world terms, you'll likely click with people who are spontaneous and adventurous (Vibrant Explorer types) or those who provide stability and reliability (Steady Guardian types). These personalities balance your thoughtful, meaning-focused approach with either exciting new experiences or grounding practicality.
+                </Text>
             </View>
           </View>
           
