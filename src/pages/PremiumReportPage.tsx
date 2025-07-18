@@ -14,7 +14,7 @@ import Button from '../components/ui/Button';
 import Card from '../components/ui/Card';
 import GradientText from '../components/ui/GradientText';
 import PDFDownloadButton from '../components/ui/PDFDownloadButton';
-import AIEnhancedPDFDownloadButton from '../components/ui/AIEnhancedPDFDownloadButton';
+import EnhancedPDFDownloadButton from '../components/ui/EnhancedPDFDownloadButton';
 
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
@@ -574,7 +574,7 @@ const PremiumReportPage = () => {
                 transition={{ delay: 0.3 }}
                 className="space-y-6 mb-8"
               >
-                <AIEnhancedPDFDownloadButton 
+                <EnhancedPDFDownloadButton 
                   archetype={archetype}
                   customerName={purchaseData?.name}
                   quizAnswers={result?.answers}
