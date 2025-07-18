@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Client-side PDF Generator</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      line-height: 1.6;
+      color: #333;
+    }
+    h1 {
+      color: #6c5ce7;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    input, select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    button {
+      background-color: #6c5ce7;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+      display: block;
+      margin: 30px auto;
+      width: 200px;
+    }
+    button:hover {
+      background-color: #5b4bc4;
+    }
+    .card {
+      background-color: #f8f9ff;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .instructions {
+      background-color: #f0e6ff;
+      border-left: 4px solid #6c5ce7;
+      padding: 15px;
+      margin-bottom: 30px;
+    }
+    .note {
+      background-color: #fff8e6;
+      border-left: 4px solid #f6ad55;
+      padding: 15px;
+      margin-top: 30px;
+    }
+    #status {
+      margin-top: 20px;
+      padding: 10px;
+      border-radius: 4px;
+      text-align: center;
+      display: none;
+    }
+    .loading {
+      background-color: #ebf8ff;
+      color: #2b6cb0;
+      border: 1px solid #bee3f8;
+    }
+    .success {
+      background-color: #f0fff4;
+      color: #2f855a;
+      border: 1px solid #c6f6d5;
+    }
+    .error {
+      background-color: #fff5f5;
+      color: #c53030;
+      border: 1px solid #fed7d7;
+    }
+  </style>
+  <!-- Include jsPDF library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+  <h1>Client-side PDF Generator</h1>
+  
+  <div class="instructions">
+    <p>This page generates a PDF report directly in your browser. Fill in the form below and click "Generate PDF" to create your report.</p>
+  </div>
+  
+  <div class="card">
+    <form id="pdfForm">
+      <div class="form-group">
+        <label for="archetypeName">Archetype Name:</label>
+        <input type="text" id="archetypeName" name="archetypeName" value="Romantic Idealist" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="archetypeTagline">Archetype Tagline:</label>
+        <input type="text" id="archetypeTagline" name="archetypeTagline" value="Finding meaning in every connection" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="compatibleWith">Compatible With:</label>
+        <input type="text" id="compatibleWith" name="compatibleWith" value="Steady Guardian & Vibrant Explorer" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="customerName">Your Name (optional):</label>
+        <input type="text" id="customerName" name="customerName" placeholder="Enter your name">
+      </div>
+      
+      <button type="submit">Generate PDF</button>
+    </form>
+    
+    <div id="status"></div>
+  </div>
+  
+  <div class="note">
+    <p><strong>How it works:</strong> This tool generates the PDF directly in your browser using jsPDF. No server-side processing is required, making it faster and more reliable.</p>
+  </div>
+  
+  <!-- Hidden container for PDF content -->
+  <div id="pdfContent" style="display: none;"></div>
+  
+  <script>
+    // Function to generate HTML template
+    function generateHtmlTemplate(archetypeName, archetypeTagline, compatibleWith, customerName) {
+      const currentDate = new Date().toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+
+      return `
+        <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
+          <!-- Cover Page -->
+          <div style="text-align: center; margin-bottom: 50px;">
+            <h1 style="color: #6c5ce7; font-size: 36px; margin-bottom: 10px;">Love Blueprint</h1>
+            <h2 style="color: #6c5ce7; font-size: 24px; margin-bottom: 30px;">Your AI-Enhanced Relationship Profile</h2>
+            <h1 style="color: #fd79a8; font-size: 30px; margin-bottom: 10px;">${archetypeName}</h1>
+            <p style="font-style: italic; color: #6c5ce7; font-size: 18px; margin-bottom: 50px;">"${archetypeTagline}"</p>
+            ${customerName ? `<p style="margin-top: 50px; font-size: 16px;">Prepared for ${customerName}</p>` : ''}
+            <p style="color: #999; font-size: 14px;">${currentDate}</p>
+          </div>
+
+          <div style="page-break-after: always;"></div>
+
+          <!-- Overview Page -->
+          <div>
+            <h2 style="color: #6c5ce7; font-size: 24px; border-bottom: 1px solid #ddd; padding-bottom: 10px; margin-bottom: 20px;">Your Unique Love Profile</h2>
+            <p style="margin-bottom: 15px;">
+              As a ${archetypeName}, you bring a unique perspective to relationships that combines emotional depth, authenticity, and meaningful connection. 
+              Your approach to love is deeply personal and meaningful.
+            </p>
+            
+            <div style="background-color: #f0e6ff; padding: 15px; border-left: 4px solid #6c5ce7; margin: 20px 0;">
+              <p style="font-style: italic;">
+                As a ${archetypeName}, you don't just experience love—you create meaningful connections that become the foundation of your personal story and identity. Your approach to relationships is both deeply personal and universally resonant.
+              </p>
+            </div>
+
+            <h2 style="color: #6c5ce7; font-size: 24px; border-bottom: 1px solid #ddd; padding-bottom: 10px; margin: 30px 0 20px;">Your Relationship Strengths</h2>
+            <p style="margin-bottom: 15px;">
+              These key strengths define how you show up in relationships and what makes you a valuable partner:
+            </p>
+            <ul style="margin-left: 20px; margin-bottom: 20px;">
+              <li style="margin-bottom: 10px;">Deep emotional intelligence and empathy</li>
+              <li style="margin-bottom: 10px;">Ability to create meaningful connections</li>
+              <li style="margin-bottom: 10px;">Strong commitment to authentic relationships</li>
+              <li style="margin-bottom: 10px;">Natural storytelling ability that enriches relationships</li>
+              <li style="margin-bottom: 10px;">Capacity for profound emotional intimacy</li>
+            </ul>
+
+            <h2 style="color: #6c5ce7; font-size: 24px; border-bottom: 1px solid #ddd; padding-bottom: 10px; margin: 30px 0 20px;">Compatibility Overview</h2>
+            <div style="background-color: #f0fff4; padding: 15px; border-radius: 5px; margin: 20px 0;">
+              <h3 style="color: #38a169; margin-top: 0; margin-bottom: 10px;">Your Perfect Match</h3>
+              <p style="margin-bottom: 15px;">
+                You naturally connect well with: ${compatibleWith}
+              </p>
+              <p>
+                In real-world terms, you'll likely click with people who are spontaneous and adventurous (Vibrant Explorer types) or those who provide stability and reliability (Steady Guardian types). These personalities balance your thoughtful, meaning-focused approach with either exciting new experiences or grounding practicality.
+              </p>
+            </div>
+            
+            <!-- Couples CTA -->
+            <div style="background-color: #f0e6ff; padding: 15px; border-radius: 5px; margin: 20px 0;">
+              <h3 style="color: #6c5ce7; margin-top: 0; margin-bottom: 10px;">Want to compare this with your partner's archetype?</h3>
+              <p>
+                Try Couples Mode to discover how your archetypes interact and get personalized insights for your relationship. Visit affinityai.me/couples to get started.
+              </p>
+            </div>
+
+            <p style="text-align: center; color: #999; font-size: 12px; margin-top: 30px;">Generated by Affinity AI - Your guide to deeper connections</p>
+          </div>
+
+          <div style="page-break-after: always;"></div>
+
+          <!-- Communication Page -->
+          <div>
+            <h2 style="color: #6c5ce7; font-size: 24px; border-bottom: 1px solid #ddd; padding-bottom: 10px; margin-bottom: 20px;">Your Communication Style</h2>
+            <p style="margin-bottom: 15px;">
+              As a ${archetypeName}, your way of talking and listening is unique. You naturally go beyond small talk to create meaningful conversations that build real connection.
+            </p>
+            
+            <h3 style="color: #333; font-size: 20px; margin: 20px 0 10px;">Your Communication Superpowers</h3>
+            <ul style="margin-left: 20px; margin-bottom: 20px;">
+              <li style="margin-bottom: 10px;">Expressing emotions with clarity and authenticity</li>
+              <li style="margin-bottom: 10px;">Active listening with genuine empathy</li>
+              <li style="margin-bottom: 10px;">Creating safe spaces for vulnerable conversations</li>
+              <li style="margin-bottom: 10px;">Understanding emotional subtext and nuance</li>
+            </ul>
+            
+            <h3 style="color: #333; font-size: 20px; margin: 20px 0 10px;">Communication Blind Spots</h3>
+            <ul style="margin-left: 20px; margin-bottom: 20px;">
+              <li style="margin-bottom: 10px;">Being direct about practical needs</li>
+              <li style="margin-bottom: 10px;">Discussing mundane topics without losing interest</li>
+              <li style="margin-bottom: 10px;">Addressing conflicts before they escalate</li>
+            </ul>
+
+            <div style="background-color: #f0e6ff; padding: 15px; border-left: 4px solid #6c5ce7; margin: 20px 0;">
+              <p style="font-style: italic;">
+                Pro Tip: Your depth of communication is a gift. When you need something practical (like deciding where to eat or setting a schedule), try being direct and specific rather than hoping your partner will sense what you need. Save the poetic language for the emotional moments where it truly shines.
+              </p>
+            </div>
+
+            <h2 style="color: #6c5ce7; font-size: 24px; border-bottom: 1px solid #ddd; padding-bottom: 10px; margin: 30px 0 20px;">Your Conflict Style</h2>
+            <p style="margin-bottom: 15px;">
+              When disagreements happen, you tend to focus on feelings first. Instead of jumping to solutions, you want to make sure everyone feels heard and understood.
+            </p>
+            
+            <p style="margin-bottom: 15px;">
+              This approach has real benefits - it creates emotional safety and deeper understanding. But sometimes it can leave practical problems unsolved or drag conflicts out longer than necessary.
+            </p>
+            
+            <div style="background-color: #f0e6ff; padding: 15px; border-left: 4px solid #6c5ce7; margin: 20px 0;">
+              <p style="font-style: italic;">
+                Try This: When conflicts arise, start by saying "I hear you and I understand how you feel" to create emotional safety. Then add "Let's figure out a solution together" to move toward resolution. This two-step approach honors both emotional needs and practical problem-solving.
+              </p>
+            </div>
+
+            <p style="text-align: center; color: #999; font-size: 12px; margin-top: 30px;">Generated by Affinity AI - Your guide to deeper connections</p>
+          </div>
+
+          <div style="page-break-after: always;"></div>
+
+          <!-- Compatibility Radar Page -->
+          <div>
+            <h2 style="color: #6c5ce7; font-size: 24px; border-bottom: 1px solid #ddd; padding-bottom: 10px; margin-bottom: 20px;">Your Compatibility Radar</h2>
+            <p style="margin-bottom: 15px;">
+              This visualization shows your natural compatibility with different relationship archetypes. The further the point extends outward on each axis, the stronger the compatibility.
+            </p>
+            
+            <!-- Compatibility Radar Chart (Text Version) -->
+            <div style="text-align: center; margin: 30px 0; padding: 20px; background-color: #f8f9ff; border-radius: 5px;">
+              <h3 style="margin-bottom: 15px;">Compatibility Percentages:</h3>
+              <p style="margin-bottom: 5px;">Steady Guardian: 85%</p>
+              <p style="margin-bottom: 5px;">Mindful Architect: 80%</p>
+              <p style="margin-bottom: 5px;">Compassionate Nurturer: 75%</p>
+              <p style="margin-bottom: 5px;">Vibrant Explorer: 85%</p>
+              
+              <p style="font-style: italic; margin-top: 15px;">
+                The radar visualization would show your strongest connections with Steady Guardian and Vibrant Explorer archetypes, with slightly lower but still strong compatibility with Mindful Architect and Compassionate Nurturer archetypes.
+              </p>
+            </div>
+            
+            <p style="margin-bottom: 15px;">
+              Understanding your compatibility patterns can help you recognize potential strengths and challenges in different relationships. Remember that compatibility is just one factor in relationship success - growth, communication, and shared values are equally important.
+            </p>
+            
+            <div style="background-color: #f0e6ff; padding: 15px; border-left: 4px solid #6c5ce7; margin: 20px 0;">
+              <p style="font-style: italic;">
+                The most fulfilling relationships often involve complementary differences, not just similarities. Look for partners who share your core values but bring different strengths to balance your natural tendencies.
+              </p>
+            </div>
+            
+            <!-- Couples CTA -->
+            <div style="background-color: #f0e6ff; padding: 15px; border-radius: 5px; margin: 20px 0;">
+              <h3 style="color: #6c5ce7; margin-top: 0; margin-bottom: 10px;">Want to compare with your partner?</h3>
+              <p>
+                Try Couples Mode to discover how your archetypes interact and get personalized insights for your relationship.
+              </p>
+            </div>
+
+            <p style="text-align: center; color: #999; font-size: 12px; margin-top: 30px;">Generated by Affinity AI - Your guide to deeper connections</p>
+          </div>
+
+          <div style="page-break-after: always;"></div>
+
+          <!-- Final Page -->
+          <div>
+            <h2 style="color: #6c5ce7; font-size: 24px; border-bottom: 1px solid #ddd; padding-bottom: 10px; margin-bottom: 20px;">Your Action Plan</h2>
+            <p style="margin-bottom: 15px;">
+              Putting these insights into action will help you create the meaningful relationships you desire. Here are practical steps you can take:
+            </p>
+
+            <h3 style="color: #333; font-size: 20px; margin: 20px 0 10px;">This Week: Quick Wins</h3>
+            <ul style="margin-left: 20px; margin-bottom: 20px;">
+              <li style="margin-bottom: 10px;">Share one meaningful story from your past with someone you care about</li>
+              <li style="margin-bottom: 10px;">Practice expressing a practical need directly</li>
+              <li style="margin-bottom: 10px;">Notice and appreciate one 'ordinary' moment of connection</li>
+              <li style="margin-bottom: 10px;">Ask someone a deep conversation starter from this report</li>
+            </ul>
+
+            <h3 style="color: #333; font-size: 20px; margin: 20px 0 10px;">This Month: Building New Patterns</h3>
+            <ul style="margin-left: 20px; margin-bottom: 20px;">
+              <li style="margin-bottom: 10px;">Establish a weekly ritual of connection</li>
+              <li style="margin-bottom: 10px;">Practice setting one small boundary while maintaining openness</li>
+              <li style="margin-bottom: 10px;">Reflect on your relationship patterns</li>
+              <li style="margin-bottom: 10px;">Plan an activity that aligns with your authentic interests</li>
+            </ul>
+
+            <div style="background-color: #f0e6ff; padding: 15px; border-left: 4px solid #6c5ce7; margin: 20px 0;">
+              <p style="font-style: italic;">
+                Remember: Your depth and emotional intelligence are gifts. The right person will treasure these qualities, not ask you to diminish them. Trust in your ability to create the meaningful connection you seek.
+              </p>
+            </div>
+
+            <!-- Final Couples CTA -->
+            <div style="background-color: #f0e6ff; padding: 15px; border-radius: 5px; margin: 20px 0;">
+              <h3 style="color: #6c5ce7; margin-top: 0; margin-bottom: 10px;">Ready to explore your relationship compatibility?</h3>
+              <p>
+                Try Couples Mode to discover how your archetypes interact and get personalized insights for your relationship. Visit affinityai.me/couples to get started.
+              </p>
+            </div>
+
+            <p style="text-align: center; font-size: 16px; color: #6c5ce7; font-weight: bold; margin: 30px 0;">
+              Thank you for taking this journey of self-discovery. May your love story be everything you dream it can be.
+            </p>
+
+            <p style="text-align: center; color: #999; font-size: 12px; margin-top: 30px;">Generated by Affinity AI - Your guide to deeper connections</p>
+          </div>
+        </div>
+      `;
+    }
+
+    // Form submission handler
+    document.getElementById('pdfForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const statusEl = document.getElementById('status');
+      statusEl.className = 'loading';
+      statusEl.textContent = 'Generating PDF...';
+      statusEl.style.display = 'block';
+      
+      try {
+        // Get form values
+        const archetypeName = document.getElementById('archetypeName').value;
+        const archetypeTagline = document.getElementById('archetypeTagline').value;
+        const compatibleWith = document.getElementById('compatibleWith').value;
+        const customerName = document.getElementById('customerName').value || undefined;
+        
+        // Generate HTML content
+        const htmlContent = generateHtmlTemplate(archetypeName, archetypeTagline, compatibleWith, customerName);
+        
+        // Create filename
+        const filename = `${archetypeName.toLowerCase().replace(/\s+/g, '-')}-love-blueprint.pdf`;
+        
+        // Insert HTML into the hidden container
+        const pdfContentEl = document.getElementById('pdfContent');
+        pdfContentEl.innerHTML = htmlContent;
+        pdfContentEl.style.display = 'block';
+        
+        // Initialize jsPDF
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF('p', 'pt', 'a4');
+        
+        // Function to add pages
+        const addPage = async (element) => {
+          const canvas = await html2canvas(element, {
+            scale: 2,
+            useCORS: true,
+            logging: false
+          });
+          
+          const imgData = canvas.toDataURL('image/png');
+          const imgProps = doc.getImageProperties(imgData);
+          const pdfWidth = doc.internal.pageSize.getWidth();
+          const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+          
+          doc.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+        };
+        
+        // Get all page divs
+        const pages = pdfContentEl.querySelectorAll('div > div');
+        
+        // Add first page
+        await addPage(pages[0]);
+        
+        // Add remaining pages
+        for (let i = 1; i < pages.length; i++) {
+          doc.addPage();
+          await addPage(pages[i]);
+        }
+        
+        // Save the PDF
+        doc.save(filename);
+        
+        // Hide the content container
+        pdfContentEl.style.display = 'none';
+        
+        // Update status
+        statusEl.className = 'success';
+        statusEl.textContent = 'PDF generated successfully!';
+      } catch (error) {
+        console.error('Error generating PDF:', error);
+        
+        // Update status
+        statusEl.className = 'error';
+        statusEl.textContent = `Error: ${error.message}`;
+      }
+    });
+  </script>
+</body>
+</html>
+

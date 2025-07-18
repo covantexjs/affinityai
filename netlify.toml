@@ -3,7 +3,7 @@
   publish = "dist"
   functions = "netlify/functions"
 
-# Force cache invalidation - timestamp: 2025-07-18T18:00:00Z
+# Force cache invalidation - timestamp: 2025-07-18T19:30:00Z
 
 [build.environment]
   NODE_VERSION = "18.18.0"
@@ -11,8 +11,8 @@
 
 [functions]
   node_bundler = "esbuild"
-  included_files = ["node_modules/chrome-aws-lambda/**", "node_modules/puppeteer-core/**"]
-  external_node_modules = ["chrome-aws-lambda", "puppeteer-core"]
+  included_files = ["node_modules/chrome-aws-lambda/**", "node_modules/puppeteer-core/**", "node_modules/html-pdf-node/**", "node_modules/pdf-lib/**"]
+  external_node_modules = ["chrome-aws-lambda", "puppeteer-core", "html-pdf-node", "pdf-lib"]
 
 [[redirects]]
   from = "/*"
