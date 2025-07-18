@@ -20,10 +20,10 @@ const styles = StyleSheet.create({
     padding: 60
   },
   coverTitle: {
-    fontSize: 36,
+    fontSize: 48,
     fontFamily: 'Helvetica-Bold',
     marginBottom: 20,
-    color: '#6c5ce7',
+    color: '#ff0000',
     textAlign: 'center'
   },
   coverSubtitle: {
