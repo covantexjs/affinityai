@@ -89,52 +89,6 @@
       color: #c53030;
       border: 1px solid #fed7d7;
     }
-    /* PDF Content Styles */
-    .pdf-page {
-      width: 595px;
-      height: 842px;
-      margin: 0 auto;
-      padding: 40px;
-      box-sizing: border-box;
-      background-color: white;
-      position: relative;
-      overflow: hidden;
-    }
-    .pdf-content {
-      font-family: Arial, sans-serif;
-      color: #333;
-    }
-    .pdf-title {
-      color: #6c5ce7;
-      font-size: 24px;
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .pdf-subtitle {
-      color: #6c5ce7;
-      font-size: 18px;
-      margin-bottom: 15px;
-    }
-    .pdf-text {
-      font-size: 12px;
-      line-height: 1.5;
-      margin-bottom: 10px;
-    }
-    .pdf-highlight {
-      background-color: #f0e6ff;
-      padding: 10px;
-      border-left: 3px solid #6c5ce7;
-      margin: 15px 0;
-    }
-    .pdf-footer {
-      position: absolute;
-      bottom: 20px;
-      left: 0;
-      right: 0;
-      text-align: center;
-      font-size: 10px;
-      color: #999;
-    }
   </style>
   <!-- Include jsPDF library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -226,7 +180,7 @@
         
         doc.setFontSize(12);
         doc.setTextColor(108, 92, 231); // #6c5ce7
-        doc.text(`"${archetypeTagline}"`, 105, 115, { align: 'center', italic: true });
+        doc.text(`"${archetypeTagline}"`, 105, 115, { align: 'center' });
         
         if (customerName) {
           doc.setFontSize(12);
@@ -330,7 +284,7 @@
         doc.setFontSize(10);
         doc.text('• Share one meaningful story from your past with someone you care about', 25, 95);
         doc.text('• Practice expressing a practical need directly', 25, 105);
-        doc.text('• Notice and appreciate one 'ordinary' moment of connection', 25, 115);
+        doc.text('• Notice and appreciate one ordinary moment of connection', 25, 115);
         
         // Final Couples CTA
         doc.setFillColor(240, 230, 255); // #f0e6ff
